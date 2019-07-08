@@ -1,4 +1,7 @@
 package entities;
 
-public class AbstractMemoryWorker {
+public abstract class AbstractMemoryWorker {
+
+
+
 }
