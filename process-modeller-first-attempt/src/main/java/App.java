@@ -1,5 +1,9 @@
+import entities.Computer;
 import entities.DefaultStandaloneTask;
 import entities.Node;
+import entities.SimpleHdd;
+import entities.SimpleLinearDiskConsumer;
+import entities.StorageDevice;
 import entities.Task;
 import exception.OutOfHweException;
 
@@ -51,6 +55,17 @@ public class App {
 
 //        testNode.enable();
 //        second.enable();
+
+        SimpleLinearDiskConsumer simpleLinearDiskConsumer =
+                new SimpleLinearDiskConsumer("simpleConsumer")
+                        .consumesMbPerDay(500);
+
+        StorageDevice storageDevice = new SimpleHdd("HDD_1", 1000)
+                .canReadAt(200)
+                .canWriteAt(100);
+        Computer computer = new Computer("Comp with HDD");
+        computer.addStorage(storageDevice);
+
 
     }
 }
