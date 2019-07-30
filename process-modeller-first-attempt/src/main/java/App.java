@@ -1,6 +1,7 @@
 import entities.Computer;
 import entities.DefaultStandaloneTask;
 import entities.Engine;
+import entities.ModelSystemConfigurator;
 import entities.Node;
 import entities.OperatingSystemAbstraction;
 import entities.SampleModellingEngine;
@@ -17,7 +18,7 @@ public class App {
 
         System.out.println("Initializing system...");
 
-        Node testNode = new Node("First")
+       /* Node testNode = new Node("First")
                 .withMinDefaultHwe()
                 .enabled();
 
@@ -49,7 +50,7 @@ public class App {
                 + (testNode.getMemoryCapacity() - testNode.getCurrentOccupiedMemory()));
         System.out.println("Took modelling time (days.): " + timeSeconds / 3600 / 24);
         System.out.println("Took modelling time (hrs.): " + timeSeconds / 3600);
-        System.out.println("Took modelling time (mins.): " + timeSeconds / 60);
+        System.out.println("Took modelling time (mins.): " + timeSeconds / 60);*/
 
 
 //        Node second = new Node("Second")
@@ -80,6 +81,16 @@ public class App {
 
 
         ModelSystem system = new ModelSystem();
+
+        System.out.println("BEFORE:");
+        system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
+
+        ModelSystemConfigurator configurator = new ModelSystemConfigurator(system);
+        configurator.configure();
+
+        System.out.println("AFTER:");
+        system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
+
         Engine engine = new SampleModellingEngine(system);
         engine.run();
     }

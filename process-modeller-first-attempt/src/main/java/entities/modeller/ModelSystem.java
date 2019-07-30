@@ -1,14 +1,20 @@
 package entities.modeller;
 
+import entities.Computer;
 import entities.Observable;
 import entities.Observer;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class ModelSystem implements Observable {
 
     private List<Observer> observers;
+
+    private List<Computer> computers;
+
     // stores all the nodes common info (like snapshot)
     private String checksum;
 
@@ -23,6 +29,11 @@ public class ModelSystem implements Observable {
 
     public ModelSystem() {
         this.observers = new ArrayList<>();
+        this.computers = new ArrayList<>();
+    }
+
+    public void addComputer(Computer computer) {
+        this.computers.add(computer);
     }
 
     @Override
