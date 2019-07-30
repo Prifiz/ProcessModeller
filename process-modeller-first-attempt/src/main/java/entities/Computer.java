@@ -1,5 +1,8 @@
 package entities;
 
+import lombok.Getter;
+
+@Getter
 public class Computer {
 
     private final String label;
@@ -18,5 +21,21 @@ public class Computer {
     // maybe remove hwe as a separate object - no dedicated behavior!
     public void addStorage(StorageDevice storageDevice) {
         this.hwe.addStorage(storageDevice);
+    }
+
+    public boolean isOn() {
+        return NodeStatus.ON.equals(nodeStatus);
+    }
+
+    public void turnOn() {
+        this.nodeStatus = NodeStatus.ON;
+    }
+
+    public void turnOff() {
+        this.nodeStatus = NodeStatus.OFF;
+    }
+
+    public void updateState() {
+        // free space changed, etc.
     }
 }

@@ -3,7 +3,7 @@ package entities;
 import lombok.Getter;
 
 @Getter
-public class SimpleLinearDiskConsumer {
+public class SimpleLinearDiskConsumer extends AbstractProcess {
 
     private String processName;
     private long diskConsumingSpeed; // bytes per second
@@ -19,5 +19,12 @@ public class SimpleLinearDiskConsumer {
 
     private long mbytesToBytes(long mbytes) {
         return mbytes * 1024 * 1024;
+    }
+
+
+
+    @Override
+    public boolean canBeRunInParallel() {
+        return false;
     }
 }

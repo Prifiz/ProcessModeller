@@ -1,6 +1,7 @@
 import entities.Computer;
 import entities.DefaultStandaloneTask;
 import entities.Node;
+import entities.OperatingSystemAbstraction;
 import entities.SimpleHdd;
 import entities.SimpleLinearDiskConsumer;
 import entities.StorageDevice;
@@ -65,7 +66,14 @@ public class App {
                 .canWriteAt(100);
         Computer computer = new Computer("Comp with HDD");
         computer.addStorage(storageDevice);
+        computer.turnOn();
 
+        OperatingSystemAbstraction os = new OperatingSystemAbstraction().installToComputer(computer);
+        os.registerProcess(simpleLinearDiskConsumer);
+
+        os.runAllRegisteredProcesses();
+
+        // fixme how to turn on/off computer?
 
     }
 }
