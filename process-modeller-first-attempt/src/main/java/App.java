@@ -1,11 +1,14 @@
 import entities.Computer;
 import entities.DefaultStandaloneTask;
+import entities.Engine;
 import entities.Node;
 import entities.OperatingSystemAbstraction;
+import entities.SampleModellingEngine;
 import entities.SimpleHdd;
 import entities.SimpleLinearDiskConsumer;
 import entities.StorageDevice;
 import entities.Task;
+import entities.modeller.ModelSystem;
 import exception.OutOfHweException;
 
 public class App {
@@ -75,5 +78,9 @@ public class App {
 
         // fixme how to turn on/off computer?
 
+
+        ModelSystem system = new ModelSystem();
+        Engine engine = new SampleModellingEngine(system);
+        engine.run();
     }
 }
