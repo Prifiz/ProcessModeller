@@ -3,7 +3,7 @@ package entities;
 import lombok.Getter;
 
 @Getter
-public class StorageDevice {
+public class StorageDevice extends HweEntry {
 
     protected final String label;
 

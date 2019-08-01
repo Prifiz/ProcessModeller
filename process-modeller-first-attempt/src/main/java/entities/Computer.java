@@ -7,6 +7,7 @@ public class Computer {
 
     private final String label;
     private HweImproved hwe;
+    private OperatingSystem os;
     private NodeStatus nodeStatus = NodeStatus.OFF;
 
     // how many storages are supported?
@@ -16,6 +17,11 @@ public class Computer {
     public Computer(String label) {
         this.label = label;
         this.hwe = new HweImproved();
+        this.os = new OperatingSystem();
+    }
+
+    public void addProcess(AbstractProcess process) {
+        os.registerProcess(process);
     }
 
     // maybe remove hwe as a separate object - no dedicated behavior!

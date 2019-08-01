@@ -1,16 +1,14 @@
 import entities.Computer;
-import entities.DefaultStandaloneTask;
+import entities.ComputerAdmin;
 import entities.Engine;
+import entities.HweUsagePolicy;
 import entities.ModelSystemConfigurator;
-import entities.Node;
 import entities.OperatingSystemAbstraction;
 import entities.SampleModellingEngine;
 import entities.SimpleHdd;
 import entities.SimpleLinearDiskConsumer;
 import entities.StorageDevice;
-import entities.Task;
 import entities.modeller.ModelSystem;
-import exception.OutOfHweException;
 
 public class App {
 
@@ -93,5 +91,16 @@ public class App {
 
         Engine engine = new SampleModellingEngine(system);
         engine.run();
+
+
+        ComputerAdmin admin = new ComputerAdmin(); // if needed
+        if (simpleLinearDiskConsumer.getHweUsagePolicy() == null) {
+            HweUsagePolicy manualPolicy = new HweUsagePolicy(); // get configured on UI or file or wherever
+            simpleLinearDiskConsumer.addPolicy(manualPolicy);
+        }
+        admin.registerProcess(computer, simpleLinearDiskConsumer);
+
+
+
     }
 }
