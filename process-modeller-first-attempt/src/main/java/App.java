@@ -1,14 +1,13 @@
+import entities.AbstractProcess;
 import entities.Computer;
 import entities.ComputerAdmin;
-import entities.Engine;
+import entities.engine.Engine;
 import entities.HweUsagePolicy;
-import entities.ModelSystemConfigurator;
-import entities.OperatingSystemAbstraction;
-import entities.SampleModellingEngine;
+import entities.engine.SimpleModellingEngine;
 import entities.SimpleHdd;
 import entities.SimpleLinearDiskConsumer;
 import entities.StorageDevice;
-import entities.modeller.ModelSystem;
+import entities.modeller.SimpleSystem;
 
 public class App {
 
@@ -59,48 +58,51 @@ public class App {
 //        testNode.enable();
 //        second.enable();
 
-        SimpleLinearDiskConsumer simpleLinearDiskConsumer =
+
+//        OperatingSystemAbstraction os = new OperatingSystemAbstraction().installToComputer(computer);
+//        os.registerProcess(simpleLinearDiskConsumer);
+//
+//        os.runAllRegisteredProcesses();
+
+        // fixme how to turn on/off computer?
+
+
+//        ModelSystem system = new ModelSystem();
+//
+//        System.out.println("BEFORE:");
+//        system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
+//
+//        ModelSystemConfigurator configurator = new ModelSystemConfigurator(system);
+//        configurator.configure();
+//
+//        System.out.println("AFTER:");
+//        system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
+
+
+
+        AbstractProcess simpleLinearDiskConsumer =
                 new SimpleLinearDiskConsumer("simpleConsumer")
                         .consumesMbPerDay(500);
 
         StorageDevice storageDevice = new SimpleHdd("HDD_1", 1000)
                 .canReadAt(200)
                 .canWriteAt(100);
-        Computer computer = new Computer("Comp with HDD");
+        Computer<StorageDevice> computer = new Computer<>("Comp with HDD"); // todo different devices types
         computer.addStorage(storageDevice);
         computer.turnOn();
 
-        OperatingSystemAbstraction os = new OperatingSystemAbstraction().installToComputer(computer);
-        os.registerProcess(simpleLinearDiskConsumer);
-
-        os.runAllRegisteredProcesses();
-
-        // fixme how to turn on/off computer?
-
-
-        ModelSystem system = new ModelSystem();
-
-        System.out.println("BEFORE:");
-        system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
-
-        ModelSystemConfigurator configurator = new ModelSystemConfigurator(system);
-        configurator.configure();
-
-        System.out.println("AFTER:");
-        system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
-
-        Engine engine = new SampleModellingEngine(system);
-        engine.run();
-
-
-        ComputerAdmin admin = new ComputerAdmin(); // if needed
+        ComputerAdmin admin = new ComputerAdmin(); // if needed??
         if (simpleLinearDiskConsumer.getHweUsagePolicy() == null) {
             HweUsagePolicy manualPolicy = new HweUsagePolicy(); // get configured on UI or file or wherever
             simpleLinearDiskConsumer.addPolicy(manualPolicy);
         }
         admin.registerProcess(computer, simpleLinearDiskConsumer);
 
+        SimpleSystem system = new SimpleSystem();
+        system.add(computer);
 
+        Engine engine = new SimpleModellingEngine(system);
+        engine.run();
 
     }
 }

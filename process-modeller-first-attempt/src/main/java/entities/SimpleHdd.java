@@ -3,7 +3,7 @@ package entities;
 public class SimpleHdd extends StorageDevice {
 
     public SimpleHdd(String label, long capacityGb) {
-        super(label, capacityGb);
+        super(label, StorageType.HDD, capacityGb);
     }
 
     public SimpleHdd canReadAt(long mbps) {

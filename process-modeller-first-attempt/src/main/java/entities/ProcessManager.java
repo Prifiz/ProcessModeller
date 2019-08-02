@@ -1,5 +1,5 @@
 package entities;
 
-public interface ProcessManager {
-    void registerProcess(AbstractProcess process);
+public interface ProcessManager<S extends StorageDevice> {
+    void registerProcess(AbstractProcess<S> process);
 }

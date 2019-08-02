@@ -3,7 +3,7 @@ package entities;
 import lombok.Getter;
 
 @Getter
-public class SimpleLinearDiskConsumer extends AbstractProcess {
+public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProcess<T> {
 
     private String processName;
     private long diskConsumingSpeed; // bytes per second
@@ -22,6 +22,13 @@ public class SimpleLinearDiskConsumer extends AbstractProcess {
     }
 
 
+    @Override
+    public T useHweEntry(T hdd, long deltaTime) { // one process uses one hwe entry! todo create complex processes
+        T result = hdd;
+
+
+        return result;
+    }
 
     @Override
     public boolean canBeRunInParallel() {

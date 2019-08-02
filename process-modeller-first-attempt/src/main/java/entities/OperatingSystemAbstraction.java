@@ -47,13 +47,13 @@ public class OperatingSystemAbstraction {
                     String.format("Can't run process. Node '%s' is OFF", computer.getLabel()));
         }
 
-        getProcessExecutor(process).run();
+//        getProcessExecutor(process).run();
     }
 
-    private SimpleLinearDiskConsumerExecutor getProcessExecutor(AbstractProcess process) {
-        // some factory method
-        return new SimpleLinearDiskConsumerExecutor();
-    }
+//    private SimpleLinearDiskConsumerExecutor getProcessExecutor(AbstractProcess process) {
+//        // some factory method
+//        return new SimpleLinearDiskConsumerExecutor();
+//    }
 
     public void runProcess(String processId) throws IOException {
         AbstractProcess process = findProcessById(processId);

@@ -1,4 +1,4 @@
-package entities;
+package entities.engine;
 
 public interface Engine {
     void run();

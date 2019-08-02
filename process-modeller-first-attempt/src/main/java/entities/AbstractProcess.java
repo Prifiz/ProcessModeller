@@ -2,14 +2,17 @@ package entities;
 
 import lombok.Getter;
 
-public abstract class AbstractProcess implements Process {
+@Getter
+public abstract class AbstractProcess<E extends HweEntry> implements Process<E> {
 
-    @Getter
     protected String processId;
 
-    public abstract HweUsagePolicy getHweUsagePolicy();
+    protected HweUsagePolicy hweUsagePolicy; // can be several policies; applied one upon one;
+    // TODO change this field & method below in future!
 
-    public abstract void addPolicy(HweUsagePolicy manualPolicy);
+    public void addPolicy(HweUsagePolicy manualPolicy) {
+        this.hweUsagePolicy = manualPolicy;
+    }
 
     // requirements
 

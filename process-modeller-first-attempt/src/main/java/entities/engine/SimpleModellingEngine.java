@@ -1,8 +1,8 @@
-package entities;
+package entities.engine;
 
-import entities.modeller.ModelSystem;
+import entities.modeller.SimpleSystem;
 
-public class SampleModellingEngine implements Engine, Observer {
+public class SimpleModellingEngine implements Engine {
     // on each step asks system if anything changed
     // runs the next step for every registered process
     // calculates processes run order
@@ -10,21 +10,31 @@ public class SampleModellingEngine implements Engine, Observer {
     private boolean paused = false;
     private boolean stopped = true;
 
-    private ModelSystem system;
+    private long currentTime = 0L;
 
-    public SampleModellingEngine(ModelSystem system) {
+    private final long STEP_DELTA_TIME = 1000L; // millis
+
+    private SimpleSystem system;
+
+    public SimpleModellingEngine(SimpleSystem system) {
         this.system = system;
-        system.addObserver(this);
     }
 
 
     public void run() {
         while (!(stopped || paused)) {
+            updateCurrentSystemTime();
             // ask system 4 changes
             //
             // build process run graph
-
+            system.getComputers().forEach(computer -> {
+                computer.updateState(currentTime);
+            });
         }
+    }
+
+    private void updateCurrentSystemTime() {
+        currentTime += STEP_DELTA_TIME;
     }
 
     public void start() {
@@ -47,8 +57,4 @@ public class SampleModellingEngine implements Engine, Observer {
         }
     }
 
-    @Override
-    public void handleEvent() {
-
-    }
 }

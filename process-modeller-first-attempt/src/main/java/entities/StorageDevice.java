@@ -6,6 +6,7 @@ import lombok.Getter;
 public class StorageDevice extends HweEntry {
 
     protected final String label;
+    protected final StorageType storageType;
 
     protected long readSpeed; // bytes per second
     protected long writeSpeed; // bytes per second
@@ -14,8 +15,9 @@ public class StorageDevice extends HweEntry {
     protected long usedSpace; // bytes
 
 
-    public StorageDevice(String label, long capacityGb) {
+    public StorageDevice(String label, StorageType storageType, long capacityGb) {
         this.label = label;
+        this.storageType = storageType;
         this.capacity = capacityGb * 1024 * 1024 * 1024;
     }
 }

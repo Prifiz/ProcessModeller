@@ -3,11 +3,11 @@ package entities;
 import lombok.Getter;
 
 @Getter
-public class Computer {
+public class Computer<S extends StorageDevice> {
 
     private final String label;
-    private HweImproved hwe;
-    private OperatingSystem os;
+    private HweImproved<S> hwe;
+    private OperatingSystem<S> os;
     private NodeStatus nodeStatus = NodeStatus.OFF;
 
     // how many storages are supported?
@@ -16,16 +16,16 @@ public class Computer {
 
     public Computer(String label) {
         this.label = label;
-        this.hwe = new HweImproved();
-        this.os = new OperatingSystem();
+        this.hwe = new HweImproved<>();
+        this.os = new OperatingSystem<>();
     }
 
-    public void addProcess(AbstractProcess process) {
+    public void addProcess(AbstractProcess<S> process) {
         os.registerProcess(process);
     }
 
     // maybe remove hwe as a separate object - no dedicated behavior!
-    public void addStorage(StorageDevice storageDevice) {
+    public void addStorage(S storageDevice) {
         this.hwe.addStorage(storageDevice);
     }
 
@@ -41,7 +41,8 @@ public class Computer {
         this.nodeStatus = NodeStatus.OFF;
     }
 
-    public void updateState() {
+    public void updateState(long currentTime) {
         // free space changed, etc.
+        os.runAllProcesses(hwe, currentTime);
     }
 }
