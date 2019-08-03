@@ -21,4 +21,8 @@ public class StorageDevice extends HweEntry {
         this.storageType = storageType;
         this.capacity = capacityGb * 1024 * 1024 * 1024;
     }
+
+    public void consumeSpace(long bytes) {
+        usedSpace += bytes;
+    }
 }

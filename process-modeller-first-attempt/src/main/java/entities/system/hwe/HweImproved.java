@@ -2,11 +2,13 @@ package entities.system.hwe;
 
 import entities.system.hwe.storages.StorageDevice;
 import entities.system.hwe.storages.StorageType;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Getter
 public class HweImproved<S extends StorageDevice> {
 
     protected List<S> storages;
@@ -17,10 +19,6 @@ public class HweImproved<S extends StorageDevice> {
 
     public void addStorage(S storageDevice) {
         this.storages.add(storageDevice);
-    }
-
-    public void updateStorage(S device) {
-        // some update logic here
     }
 
     public Optional<S> getFirstStorageByType(StorageType type) {

@@ -33,7 +33,10 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
         long deltaTime = currentTime - previousTime;
         processes.forEach(process -> {
             Optional<S> device = hwe.getFirstStorageByType(StorageType.HDD); // workaround simplification for prototype
-            device.ifPresent(storageDevice -> hwe.updateStorage(process.useHweEntry(storageDevice, deltaTime)));
+            if(device.isPresent()) {
+                S hdd = device.get();
+                process.useHweEntry(hdd, deltaTime);
+            }
         });
         previousTime = currentTime;
     }

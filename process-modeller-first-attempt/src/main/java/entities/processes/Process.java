@@ -9,6 +9,6 @@ public interface Process<E extends HweEntry> {
 
     E useHweEntry(E hweEntry, long deltaTime);
 
-    boolean canBeRunInParallel();
+    //boolean canBeRunInParallel();
 
 }

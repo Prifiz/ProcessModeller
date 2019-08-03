@@ -1,13 +1,14 @@
+import entities.engine.LimitedStepsEngine;
+import entities.engine.SimpleModellingEngine;
 import entities.processes.AbstractProcess;
+import entities.processes.SimpleLinearDiskConsumer;
 import entities.system.Computer;
 import entities.system.ComputerAdmin;
-import entities.engine.Engine;
-import entities.system.hwe.HweUsagePolicy;
-import entities.engine.SimpleModellingEngine;
-import entities.system.hwe.storages.SimpleHdd;
-import entities.processes.SimpleLinearDiskConsumer;
-import entities.system.hwe.storages.StorageDevice;
+import entities.system.ComputerStateLogger;
 import entities.system.SimpleSystem;
+import entities.system.hwe.HweUsagePolicy;
+import entities.system.hwe.storages.SimpleHdd;
+import entities.system.hwe.storages.StorageDevice;
 
 public class App {
 
@@ -15,70 +16,17 @@ public class App {
 
         System.out.println("Initializing system...");
 
-       /* Node testNode = new Node("First")
-                .withMinDefaultHwe()
-                .enabled();
-
-
-
-        int timeSeconds = 0;
-
-        final int TICK = 1;
-        final int EVAL_TIMEOUT = 30000000;
-
-        System.out.println("Memory Capacity: " + testNode.getMemoryCapacity());
-        System.out.println("Initial Free Memory: "
-                + (testNode.getMemoryCapacity() - testNode.getCurrentOccupiedMemory()));
-
-        while (timeSeconds < EVAL_TIMEOUT) {
-            try {
-                defaultStandaloneTask.tick();
-            } catch (OutOfHweException ex) {
-                System.out.println(String.format("Node with label '%s' reported an error:", testNode.getLabel()));
-                System.out.println(ex.getMessage());
-                break;
-            }
-            System.out.println((testNode.getMemoryCapacity() - testNode.getCurrentOccupiedMemory()));
-            timeSeconds += TICK;
-        }
-
-        System.out.println("Ended With Free Memory: "
-                + (testNode.getMemoryCapacity() - testNode.getCurrentOccupiedMemory()));
-        System.out.println("Took modelling time (days.): " + timeSeconds / 3600 / 24);
-        System.out.println("Took modelling time (hrs.): " + timeSeconds / 3600);
-        System.out.println("Took modelling time (mins.): " + timeSeconds / 60);*/
-
-
-//        Node second = new Node("Second")
-//                .withMinDefaultHwe()
-//                .enabled();
-
-
-//        testNode.enable();
-//        second.enable();
-
-
-//        OperatingSystemAbstraction os = new OperatingSystemAbstraction().installToComputer(computer);
-//        os.registerProcess(simpleLinearDiskConsumer);
-//
-//        os.runAllRegisteredProcesses();
-
         // fixme how to turn on/off computer?
+/*
+        System.out.println("BEFORE:");
+        system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
 
+        ModelSystemConfigurator configurator = new ModelSystemConfigurator(system);
+        configurator.configure();
 
-//        ModelSystem system = new ModelSystem();
-//
-//        System.out.println("BEFORE:");
-//        system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
-//
-//        ModelSystemConfigurator configurator = new ModelSystemConfigurator(system);
-//        configurator.configure();
-//
-//        System.out.println("AFTER:");
-//        system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
-
-
-
+        System.out.println("AFTER:");
+        system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
+*/
         AbstractProcess simpleLinearDiskConsumer =
                 new SimpleLinearDiskConsumer("simpleConsumer")
                         .consumesMbPerDay(500);
@@ -88,6 +36,7 @@ public class App {
                 .canWriteAt(100);
         Computer<StorageDevice> computer = new Computer<>("Comp with HDD"); // todo different devices types
         computer.addStorage(storageDevice);
+        computer.addObserver(new ComputerStateLogger());
         computer.turnOn();
 
         ComputerAdmin admin = new ComputerAdmin(); // if needed??
@@ -100,8 +49,11 @@ public class App {
         SimpleSystem system = new SimpleSystem();
         system.add(computer);
 
-        Engine engine = new SimpleModellingEngine(system);
-        engine.run();
+        long oneDayMillis = 24 * 3600 * 1000;
+
+        LimitedStepsEngine engine = new SimpleModellingEngine(system)
+                .withCustomDeltaTime(oneDayMillis);
+        engine.run(5);
 
     }
 }
