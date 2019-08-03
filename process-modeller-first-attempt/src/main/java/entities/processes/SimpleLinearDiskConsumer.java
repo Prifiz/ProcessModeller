@@ -14,7 +14,7 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
     }
 
     public SimpleLinearDiskConsumer consumesMbPerDay(long mbytes) {
-        this.diskConsumingSpeed = mbytesToBytes(mbytes) / (24 * 3600 * 1000);
+        this.diskConsumingSpeed = mbytesToBytes(mbytes) * 1.0f / (24 * 3600 * 1000);
         return this;
     }
 

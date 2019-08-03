@@ -49,7 +49,7 @@ public class App {
         SimpleSystem system = new SimpleSystem();
         system.add(computer);
 
-        long oneDayMillis = 24 * 3600 * 1000;
+        long oneDayMillis = 24L * 3600L * 1000L;
 
         LimitedStepsEngine engine = new SimpleModellingEngine(system)
                 .withCustomDeltaTime(oneDayMillis);

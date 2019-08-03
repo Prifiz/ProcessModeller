@@ -1,7 +1,5 @@
 package entities.processes;
 
-import entities.processes.AbstractProcess;
-import entities.processes.ProcessManager;
 import entities.system.hwe.HweImproved;
 import entities.system.hwe.storages.StorageDevice;
 import entities.system.hwe.storages.StorageType;
