@@ -1,6 +1,6 @@
 package entities.engine;
 
-import entities.modeller.SimpleSystem;
+import entities.system.SimpleSystem;
 
 public class SimpleModellingEngine implements Engine {
     // on each step asks system if anything changed

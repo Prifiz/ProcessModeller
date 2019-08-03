@@ -1,13 +1,13 @@
-import entities.AbstractProcess;
-import entities.Computer;
-import entities.ComputerAdmin;
+import entities.processes.AbstractProcess;
+import entities.system.Computer;
+import entities.system.ComputerAdmin;
 import entities.engine.Engine;
-import entities.HweUsagePolicy;
+import entities.system.hwe.HweUsagePolicy;
 import entities.engine.SimpleModellingEngine;
-import entities.SimpleHdd;
-import entities.SimpleLinearDiskConsumer;
-import entities.StorageDevice;
-import entities.modeller.SimpleSystem;
+import entities.system.hwe.storages.SimpleHdd;
+import entities.processes.SimpleLinearDiskConsumer;
+import entities.system.hwe.storages.StorageDevice;
+import entities.system.SimpleSystem;
 
 public class App {
 
@@ -19,8 +19,7 @@ public class App {
                 .withMinDefaultHwe()
                 .enabled();
 
-        Task defaultStandaloneTask = new DefaultStandaloneTask(1);
-        defaultStandaloneTask.assign(testNode);
+
 
         int timeSeconds = 0;
 
