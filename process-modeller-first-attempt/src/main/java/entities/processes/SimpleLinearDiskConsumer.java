@@ -22,12 +22,9 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
         return mbytes * 1024 * 1024;
     } // fixme replace with javax.metrics
 
-
     @Override
-    public T useHweEntry(T hdd, long deltaTime) { // one process uses one hwe entry! todo create complex processes
-        T result = hdd;
-        result.consumeSpace(Math.round(deltaTime * diskConsumingSpeed));
-        return result;
+    public void useHweEntry(T hdd, long deltaTime) { // one process uses one hwe entry! todo create complex processes
+        hdd.consumeSpace(Math.round(deltaTime * diskConsumingSpeed));
     }
 
 //    @Override

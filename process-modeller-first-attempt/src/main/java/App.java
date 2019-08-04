@@ -53,7 +53,7 @@ public class App {
 
         LimitedStepsEngine engine = new SimpleModellingEngine(system)
                 .withCustomDeltaTime(oneDayMillis);
-        engine.run(5);
+        engine.run(15);
 
     }
 }
