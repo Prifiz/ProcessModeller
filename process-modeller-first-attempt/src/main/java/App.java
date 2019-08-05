@@ -31,6 +31,10 @@ public class App {
                 new SimpleLinearDiskConsumer("simpleConsumer")
                         .consumesMbPerDay(500);
 
+        AbstractProcess consumer2 =
+                new SimpleLinearDiskConsumer("consumer2")
+                        .consumesMbPerDay(100);
+
         StorageDevice storageDevice = new SimpleHdd("HDD_1", 1000)
                 .canReadAt(200)
                 .canWriteAt(100);
@@ -39,12 +43,9 @@ public class App {
         computer.addObserver(new ComputerStateLogger());
         computer.turnOn();
 
-        ComputerAdmin admin = new ComputerAdmin(); // if needed??
-        if (simpleLinearDiskConsumer.getHweUsagePolicy() == null) {
-            HweUsagePolicy manualPolicy = new HweUsagePolicy(); // get configured on UI or file or wherever
-            simpleLinearDiskConsumer.addPolicy(manualPolicy);
-        }
+        ComputerAdmin admin = new ComputerAdmin();
         admin.registerProcess(computer, simpleLinearDiskConsumer);
+        admin.registerProcess(computer, consumer2);
 
         SimpleSystem system = new SimpleSystem();
         system.add(computer);
