@@ -1,16 +1,27 @@
 package entities.system;
 
-public class ComputerStateLogger implements Observer {
+import entities.system.hwe.storages.StorageDevice;
+
+public class ComputerStateLogger implements Logger {
+
+    private Computer computer;
+
+    public ComputerStateLogger(Computer computer) {
+        this.computer = computer;
+    }
 
     @Override
-    public void react(Observable observable) {
-        if (Computer.class.equals(observable.getClass())) {
-            ((Computer<?>) observable).getHwe().getStorages().forEach(storage -> {
+    public void doLog() {
+
+        computer.getHwe().getStorages().forEach(storage -> {
 //                System.out.println(String.format("Storage '%s': ", storage.getLabel()));
 //                System.out.println(String.format("Capacity: [%s] bytes", storage.getCapacity()));
 //                System.out.println(String.format("Used space: [%s] bytes", storage.getUsedSpace()));
-                System.out.println(storage.getUsedSpace() / 1024 / 1024);
-            });
-        }
+            System.out.println(
+                    String.format(
+                            "Total storage used space: [%s]",
+                            ((StorageDevice) storage).getUsedSpace() / 1024 / 1024));
+        });
+
     }
 }

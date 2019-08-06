@@ -6,11 +6,10 @@ import lombok.Getter;
 @Getter
 public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProcess<T> {
 
-    private String processName;
     private float diskConsumingSpeed; // bytes per millisecond
 
     public SimpleLinearDiskConsumer(String processName) {
-        this.processName = processName;
+        super(processName);
     }
 
     public SimpleLinearDiskConsumer consumesMbPerDay(long mbytes) {

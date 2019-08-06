@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class Computer<S extends StorageDevice> implements Observable {
+public class Computer<S extends StorageDevice> implements LoggedEntity {
 
     private final String label;
     private HweImproved<S> hwe;
     private OperatingSystem<S> os;
     private NodeStatus nodeStatus = NodeStatus.OFF;
 
-    private List<Observer> observers;
+    private List<Logger> loggers;
 
     // how many storages are supported?
     // can next storage be added?
@@ -27,7 +27,7 @@ public class Computer<S extends StorageDevice> implements Observable {
         this.label = label;
         this.hwe = new HweImproved<>();
         this.os = new OperatingSystem<>();
-        this.observers = new ArrayList<>();
+        this.loggers = new ArrayList<>();
     }
 
     public void addProcess(AbstractProcess<S> process) {
@@ -51,19 +51,19 @@ public class Computer<S extends StorageDevice> implements Observable {
         this.nodeStatus = NodeStatus.OFF;
     }
 
-    public void updateState(long currentTime) {
+    public void updateState(long currentSystemTime) {
         // free space changed, etc.
-        os.runAllProcesses(hwe, currentTime);
-        notifyAllObservers();
+        os.runAllProcesses(hwe, currentSystemTime);
+        notifyAllLoggers();
     }
 
     @Override
-    public void addObserver(Observer observer) {
-        this.observers.add(observer);
+    public void attachLogger(Logger logger) {
+        this.loggers.add(logger);
     }
 
     @Override
-    public void notifyAllObservers() {
-        observers.forEach(observer -> observer.react(this));
+    public void notifyAllLoggers() {
+        loggers.forEach(Logger::doLog);
     }
 }

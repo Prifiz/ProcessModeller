@@ -8,6 +8,12 @@ import lombok.Getter;
 public abstract class AbstractProcess<E extends HweEntry> implements Process<E> {
 
     protected String processId;
+    protected String processName;
+
+    public AbstractProcess(String processName) {
+        this.processName = processName;
+    }
+
 
     protected HweUsagePolicy hweUsagePolicy; // can be several policies; applied one upon one;
     // TODO change this field & method below in future!

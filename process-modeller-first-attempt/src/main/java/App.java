@@ -2,11 +2,7 @@ import entities.engine.LimitedStepsEngine;
 import entities.engine.SimpleModellingEngine;
 import entities.processes.AbstractProcess;
 import entities.processes.SimpleLinearDiskConsumer;
-import entities.system.Computer;
-import entities.system.ComputerAdmin;
-import entities.system.ComputerStateLogger;
-import entities.system.SimpleSystem;
-import entities.system.hwe.HweUsagePolicy;
+import entities.system.*;
 import entities.system.hwe.storages.SimpleHdd;
 import entities.system.hwe.storages.StorageDevice;
 
@@ -35,12 +31,18 @@ public class App {
                 new SimpleLinearDiskConsumer("consumer2")
                         .consumesMbPerDay(100);
 
+        Computer<StorageDevice> computer = new Computer<>("Comp with HDD"); // todo different devices types
+
         StorageDevice storageDevice = new SimpleHdd("HDD_1", 1000)
                 .canReadAt(200)
                 .canWriteAt(100);
-        Computer<StorageDevice> computer = new Computer<>("Comp with HDD"); // todo different devices types
+
         computer.addStorage(storageDevice);
-        computer.addObserver(new ComputerStateLogger());
+
+
+        computer.attachLogger(new ComputerStateLogger(computer));
+        computer.attachLogger(new ProcessLogger(computer.getOs()));
+
         computer.turnOn();
 
         ComputerAdmin admin = new ComputerAdmin();

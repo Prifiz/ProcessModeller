@@ -10,7 +10,7 @@ public class SimpleModellingEngine implements LimitedStepsEngine {
     private boolean paused = false;
     private boolean stopped = false;
 
-    private long currentTime = 0L;
+    private long currentSystemTime = 0L;
 
     private long stepDeltaTime = 1000L; // millis
 
@@ -34,7 +34,7 @@ public class SimpleModellingEngine implements LimitedStepsEngine {
         //
         // build process run graph
         system.getComputers().forEach(computer -> {
-            computer.updateState(currentTime);
+            computer.updateState(currentSystemTime);
         });
     }
 
@@ -53,7 +53,7 @@ public class SimpleModellingEngine implements LimitedStepsEngine {
     }
 
     private void updateCurrentSystemTime() {
-        currentTime += stepDeltaTime;
+        currentSystemTime += stepDeltaTime;
     }
 
     public void start() {

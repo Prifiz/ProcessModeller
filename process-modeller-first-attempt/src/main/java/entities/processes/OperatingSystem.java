@@ -3,15 +3,18 @@ package entities.processes;
 import entities.system.hwe.HweImproved;
 import entities.system.hwe.storages.StorageDevice;
 import entities.system.hwe.storages.StorageType;
+import lombok.Getter;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+@Getter
 public class OperatingSystem<S extends StorageDevice> implements ProcessManager<S> {
 
+
     private List<AbstractProcess<S>> processes; // needed mapping to hwe!!! // processpool?
-    private long previousTime = 0L;
+    private long currentOsTime = 0L;
 
     public OperatingSystem() {
         processes = new LinkedList<>();
@@ -27,8 +30,8 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
     }
 
 
-    public void runAllProcesses(HweImproved<S> hwe, long currentTime) {
-        long deltaTime = currentTime - previousTime;
+    public void runAllProcesses(HweImproved<S> hwe, long currentSystemTime) {
+        long deltaTime = currentSystemTime - currentOsTime;
         processes.forEach(process -> {
             Optional<S> device = hwe.getFirstStorageByType(StorageType.HDD); // workaround simplification for prototype
             if(device.isPresent()) {
@@ -36,6 +39,6 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
                 process.useHweEntry(hdd, deltaTime);
             }
         });
-        previousTime = currentTime;
+        currentOsTime = currentSystemTime;
     }
 }
