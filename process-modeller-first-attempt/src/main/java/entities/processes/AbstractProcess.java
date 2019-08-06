@@ -1,17 +1,26 @@
 package entities.processes;
 
+import entities.system.LoggedEntity;
+import entities.system.Logger;
 import entities.system.hwe.HweEntry;
 import entities.system.hwe.HweUsagePolicy;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
-public abstract class AbstractProcess<E extends HweEntry> implements Process<E> {
+public abstract class AbstractProcess<E extends HweEntry> implements Process<E>, LoggedEntity {
+
+    // retention LoggedEntity?
 
     protected String processId;
     protected String processName;
+    protected List<Logger> loggers;
 
     public AbstractProcess(String processName) {
         this.processName = processName;
+        this.loggers = new ArrayList<>();
     }
 
 
@@ -23,5 +32,13 @@ public abstract class AbstractProcess<E extends HweEntry> implements Process<E> 
     }
 
     // requirements
+
+    public void attachLogger(Logger logger) {
+        this.loggers.add(logger);
+    }
+
+    public void notifyAllLoggers() {
+        loggers.forEach(Logger::doLog);
+    }
 
 }

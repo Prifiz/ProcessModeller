@@ -27,9 +27,14 @@ public class App {
                 new SimpleLinearDiskConsumer("simpleConsumer")
                         .consumesMbPerDay(500);
 
+        simpleLinearDiskConsumer.attachLogger(new SimpleLinearDiskConsumerConsoleLogger(
+                (SimpleLinearDiskConsumer) simpleLinearDiskConsumer));
+
         AbstractProcess consumer2 =
                 new SimpleLinearDiskConsumer("consumer2")
                         .consumesMbPerDay(100);
+
+        consumer2.attachLogger(new SimpleLinearDiskConsumerConsoleLogger((SimpleLinearDiskConsumer) consumer2));
 
         Computer<StorageDevice> computer = new Computer<>("Comp with HDD"); // todo different devices types
 
@@ -39,9 +44,9 @@ public class App {
 
         computer.addStorage(storageDevice);
 
-
+        // todo for each process its own logger; for each hwe/computer maybe too
         computer.attachLogger(new ComputerStateLogger(computer));
-        computer.attachLogger(new ProcessLogger(computer.getOs()));
+        //computer.attachLogger(new ProcessLogger(computer.getOs()));
 
         computer.turnOn();
 

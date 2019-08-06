@@ -8,6 +8,8 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
 
     private float diskConsumingSpeed; // bytes per millisecond
 
+    private long justConsumed = 0L;
+
     public SimpleLinearDiskConsumer(String processName) {
         super(processName);
     }
@@ -21,9 +23,16 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
         return mbytes * 1024 * 1024;
     } // fixme replace with javax.metrics
 
+    private long bytesToMb(long bytes) {
+        return  bytes / 1024 / 1024;
+    }
+
     @Override
     public void useHweEntry(T hdd, long deltaTime) { // one process uses one hwe entry! todo create complex processes
-        hdd.consumeSpace(Math.round(deltaTime * diskConsumingSpeed));
+        long spaceToConsume = Math.round(deltaTime * diskConsumingSpeed);
+        hdd.consumeSpace(spaceToConsume);
+        this.justConsumed = bytesToMb(spaceToConsume);
+        notifyAllLoggers();
     }
 
 //    @Override
