@@ -5,6 +5,8 @@ import entities.processes.SimpleLinearDiskConsumer;
 import entities.system.*;
 import entities.system.hwe.storages.SimpleHdd;
 import entities.system.hwe.storages.StorageDevice;
+import entities.system.logger.ComputerStateLogger;
+import entities.system.logger.SimpleLinearDiskConsumerConsoleLogger;
 
 public class App {
 

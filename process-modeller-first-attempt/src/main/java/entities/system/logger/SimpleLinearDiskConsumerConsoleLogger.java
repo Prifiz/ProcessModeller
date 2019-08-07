@@ -1,4 +1,4 @@
-package entities.system;
+package entities.system.logger;
 
 import entities.processes.SimpleLinearDiskConsumer;
 

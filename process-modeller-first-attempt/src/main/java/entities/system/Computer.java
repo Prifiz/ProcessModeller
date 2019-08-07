@@ -4,6 +4,8 @@ import entities.system.hwe.HweImproved;
 import entities.processes.OperatingSystem;
 import entities.system.hwe.storages.StorageDevice;
 import entities.processes.AbstractProcess;
+import entities.system.logger.LoggedEntity;
+import entities.system.logger.Logger;
 import lombok.Getter;
 
 import java.util.ArrayList;

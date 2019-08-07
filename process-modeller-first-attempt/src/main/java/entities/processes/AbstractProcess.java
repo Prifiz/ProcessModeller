@@ -1,7 +1,7 @@
 package entities.processes;
 
-import entities.system.LoggedEntity;
-import entities.system.Logger;
+import entities.system.logger.LoggedEntity;
+import entities.system.logger.Logger;
 import entities.system.hwe.HweEntry;
 import entities.system.hwe.HweUsagePolicy;
 import lombok.Getter;
