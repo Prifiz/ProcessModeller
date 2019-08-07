@@ -1,9 +1,10 @@
 package entities.system;
 
-import entities.system.hwe.HweImproved;
-import entities.processes.OperatingSystem;
-import entities.system.hwe.storages.StorageDevice;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import entities.processes.AbstractProcess;
+import entities.processes.OperatingSystem;
+import entities.system.hwe.HweImproved;
+import entities.system.hwe.storages.StorageDevice;
 import entities.system.logger.LoggedEntity;
 import entities.system.logger.Logger;
 import lombok.Getter;
@@ -16,10 +17,13 @@ public class Computer<S extends StorageDevice> implements LoggedEntity {
 
     private final String label;
     private HweImproved<S> hwe;
-    private OperatingSystem<S> os;
-    private NodeStatus nodeStatus = NodeStatus.OFF;
 
+    @JsonIgnore
     private List<Logger> loggers;
+    @JsonIgnore
+    private OperatingSystem<S> os;
+    @JsonIgnore
+    private NodeStatus nodeStatus = NodeStatus.OFF;
 
     // how many storages are supported?
     // can next storage be added?
@@ -58,6 +62,8 @@ public class Computer<S extends StorageDevice> implements LoggedEntity {
         os.runAllProcesses(hwe, currentSystemTime);
         notifyAllLoggers();
     }
+
+    // TODO detach also needed
 
     @Override
     public void attachLogger(Logger logger) {

@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.engine.LimitedStepsEngine;
 import entities.engine.SimpleModellingEngine;
 import entities.processes.AbstractProcess;
@@ -55,6 +57,13 @@ public class App {
         ComputerAdmin admin = new ComputerAdmin();
         admin.registerProcess(computer, simpleLinearDiskConsumer);
         admin.registerProcess(computer, consumer2);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            System.out.println(mapper.writeValueAsString(computer));
+        } catch (JsonProcessingException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
 
         SimpleSystem system = new SimpleSystem();
         system.add(computer);
