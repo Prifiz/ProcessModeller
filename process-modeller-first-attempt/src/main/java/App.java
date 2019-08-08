@@ -1,4 +1,6 @@
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.engine.LimitedStepsEngine;
 import entities.engine.SimpleModellingEngine;
@@ -9,6 +11,8 @@ import entities.system.hwe.storages.SimpleHdd;
 import entities.system.hwe.storages.StorageDevice;
 import entities.system.logger.ComputerStateLogger;
 import entities.system.logger.SimpleLinearDiskConsumerConsoleLogger;
+
+import java.io.IOException;
 
 public class App {
 
@@ -58,7 +62,7 @@ public class App {
         admin.registerProcess(computer, consumer500mbPerDay);
         admin.registerProcess(computer, consumer100mbPerDay);
 
-        printJson(computer);
+        //getJson(computer);
 
         SimpleSystem system = new SimpleSystem();
         system.add(computer);
@@ -69,16 +73,30 @@ public class App {
                 .withCustomDeltaTime(oneDayMillis);
         engine.run(15);
 
-        printJson(computer);
+        String computerJson = getJson(computer);
+
+        System.out.println("Serialized:");
+        System.out.println(computerJson);
+
+        try {
+            ObjectMapper readMapper = new ObjectMapper();
+            System.out.println("Deserialized:");
+            readMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            Computer deserializedComputer = readMapper.readValue(computerJson, Computer.class);
+            System.out.println(deserializedComputer.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // TODO move to dedicated class
-    private static void printJson(Computer computer) {
+    private static String getJson(Computer computer) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            System.out.println(mapper.writeValueAsString(computer));
+            return mapper.writeValueAsString(computer);
         } catch (JsonProcessingException ex) {
             System.out.println("Error: " + ex.getMessage());
+            return "";
         }
     }
 }

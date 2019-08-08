@@ -2,6 +2,7 @@ package entities.processes;
 
 import entities.system.Computer;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Getter
+@Setter
 public class OperatingSystemAbstraction {
 
     private Computer computer;

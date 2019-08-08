@@ -1,8 +1,16 @@
 package entities.system.hwe.storages;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class SimpleHdd extends StorageDevice {
 
-    public SimpleHdd(String label, long capacityGb) {
+    public SimpleHdd(@JsonProperty String label, @JsonProperty long capacityGb) {
         super(label, StorageType.HDD, capacityGb);
     }
 
