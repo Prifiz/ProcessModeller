@@ -2,7 +2,9 @@ package entities.system.logger;
 
 import entities.processes.OperatingSystem;
 import entities.system.hwe.storages.StorageDevice;
+import lombok.Getter;
 
+@Getter
 public class ProcessLogger implements Logger {
 
     private OperatingSystem<StorageDevice> os;

@@ -27,18 +27,18 @@ public class App {
         System.out.println("AFTER:");
         system.getComputers().forEach(comp -> System.out.println(comp.getLabel()));
 */
-        AbstractProcess simpleLinearDiskConsumer =
-                new SimpleLinearDiskConsumer("simpleConsumer")
+        AbstractProcess consumer500mbPerDay =
+                new SimpleLinearDiskConsumer("500 per day")
                         .consumesMbPerDay(500);
 
-        simpleLinearDiskConsumer.attachLogger(new SimpleLinearDiskConsumerConsoleLogger(
-                (SimpleLinearDiskConsumer) simpleLinearDiskConsumer));
+        consumer500mbPerDay.attachLogger(new SimpleLinearDiskConsumerConsoleLogger(
+                (SimpleLinearDiskConsumer) consumer500mbPerDay));
 
-        AbstractProcess consumer2 =
-                new SimpleLinearDiskConsumer("consumer2")
+        AbstractProcess consumer100mbPerDay =
+                new SimpleLinearDiskConsumer("100 per day")
                         .consumesMbPerDay(100);
 
-        consumer2.attachLogger(new SimpleLinearDiskConsumerConsoleLogger((SimpleLinearDiskConsumer) consumer2));
+        consumer100mbPerDay.attachLogger(new SimpleLinearDiskConsumerConsoleLogger((SimpleLinearDiskConsumer) consumer100mbPerDay));
 
         Computer<StorageDevice> computer = new Computer<>("Comp with HDD"); // todo different devices types
 
@@ -55,15 +55,10 @@ public class App {
         computer.turnOn();
 
         ComputerAdmin admin = new ComputerAdmin();
-        admin.registerProcess(computer, simpleLinearDiskConsumer);
-        admin.registerProcess(computer, consumer2);
+        admin.registerProcess(computer, consumer500mbPerDay);
+        admin.registerProcess(computer, consumer100mbPerDay);
 
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            System.out.println(mapper.writeValueAsString(computer));
-        } catch (JsonProcessingException ex) {
-            System.out.println("Error: " + ex.getMessage());
-        }
+        printJson(computer);
 
         SimpleSystem system = new SimpleSystem();
         system.add(computer);
@@ -74,5 +69,16 @@ public class App {
                 .withCustomDeltaTime(oneDayMillis);
         engine.run(15);
 
+        printJson(computer);
+    }
+
+    // TODO move to dedicated class
+    private static void printJson(Computer computer) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            System.out.println(mapper.writeValueAsString(computer));
+        } catch (JsonProcessingException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
     }
 }

@@ -8,6 +8,7 @@ import entities.system.hwe.storages.StorageDevice;
 import entities.system.logger.LoggedEntity;
 import entities.system.logger.Logger;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +18,13 @@ public class Computer<S extends StorageDevice> implements LoggedEntity {
 
     private final String label;
     private HweImproved<S> hwe;
+    private NodeStatus nodeStatus = NodeStatus.OFF;
 
     @JsonIgnore
     private List<Logger> loggers;
-    @JsonIgnore
+    //@JsonIgnore
     private OperatingSystem<S> os;
-    @JsonIgnore
-    private NodeStatus nodeStatus = NodeStatus.OFF;
+
 
     // how many storages are supported?
     // can next storage be added?
@@ -45,6 +46,7 @@ public class Computer<S extends StorageDevice> implements LoggedEntity {
         this.hwe.addStorage(storageDevice);
     }
 
+    @JsonIgnore
     public boolean isOn() {
         return NodeStatus.ON.equals(nodeStatus);
     }

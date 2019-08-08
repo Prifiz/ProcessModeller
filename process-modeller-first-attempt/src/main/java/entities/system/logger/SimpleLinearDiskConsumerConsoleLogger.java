@@ -1,7 +1,9 @@
 package entities.system.logger;
 
 import entities.processes.SimpleLinearDiskConsumer;
+import lombok.Getter;
 
+@Getter
 public class SimpleLinearDiskConsumerConsoleLogger implements Logger {
 
     private SimpleLinearDiskConsumer simpleLinearDiskConsumer;

@@ -2,7 +2,9 @@ package entities.system.logger;
 
 import entities.system.Computer;
 import entities.system.hwe.storages.StorageDevice;
+import lombok.Getter;
 
+@Getter
 public class ComputerStateLogger implements Logger {
 
     private Computer computer;

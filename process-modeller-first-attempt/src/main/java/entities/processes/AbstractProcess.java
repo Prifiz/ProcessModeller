@@ -1,5 +1,6 @@
 package entities.processes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import entities.system.logger.LoggedEntity;
 import entities.system.logger.Logger;
 import entities.system.hwe.HweEntry;
@@ -16,6 +17,7 @@ public abstract class AbstractProcess<E extends HweEntry> implements Process<E>,
 
     protected String processId;
     protected String processName;
+    @JsonIgnore
     protected List<Logger> loggers;
 
     public AbstractProcess(String processName) {
@@ -25,6 +27,7 @@ public abstract class AbstractProcess<E extends HweEntry> implements Process<E>,
 
 
     protected HweUsagePolicy hweUsagePolicy; // can be several policies; applied one upon one;
+
     // TODO change this field & method below in future!
 
     public void addPolicy(HweUsagePolicy manualPolicy) {
