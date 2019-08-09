@@ -76,6 +76,7 @@ public class App {
 
         System.out.println("Serialized:");
         System.out.println(computerJson);
+        jsonExporter.exportEntityToFile(computer, "computer.json");
 
         EntityImporter jsonImporter = new ComputerJsonImporter();
         Computer imported = (Computer) jsonImporter.importEntityFromString(computerJson);
