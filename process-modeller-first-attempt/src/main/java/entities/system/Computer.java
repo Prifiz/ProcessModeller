@@ -20,6 +20,7 @@ import java.util.List;
 @Setter
 @ToString
 public class Computer<S extends StorageDevice> implements LoggedEntity, ExportedEntity, ImportedEntity {
+    // exported & imported can be retentions
 
     @JsonProperty(value = "label")
     private final String label;

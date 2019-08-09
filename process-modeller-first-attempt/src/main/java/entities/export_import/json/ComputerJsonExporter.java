@@ -8,7 +8,7 @@ import entities.system.ExportedEntity;
 public class ComputerJsonExporter implements EntityExporter {
 
     @Override
-    public void exportEntity(ExportedEntity exportedEntity) {
+    public void exportEntityToFile(ExportedEntity exportedEntity, String filePath) {
 
     }
 
