@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Computer<S extends StorageDevice> implements LoggedEntity {
+public class Computer<S extends StorageDevice> implements LoggedEntity, ExportedEntity, ImportedEntity {
 
     @JsonProperty(value = "label")
     private final String label;

@@ -1,9 +1,9 @@
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.engine.LimitedStepsEngine;
 import entities.engine.SimpleModellingEngine;
+import entities.export_import.EntityExporter;
+import entities.export_import.EntityImporter;
+import entities.export_import.json.ComputerJsonExporter;
+import entities.export_import.json.ComputerJsonImporter;
 import entities.processes.AbstractProcess;
 import entities.processes.SimpleLinearDiskConsumer;
 import entities.system.*;
@@ -11,8 +11,6 @@ import entities.system.hwe.storages.SimpleHdd;
 import entities.system.hwe.storages.StorageDevice;
 import entities.system.logger.ComputerStateLogger;
 import entities.system.logger.SimpleLinearDiskConsumerConsoleLogger;
-
-import java.io.IOException;
 
 public class App {
 
@@ -73,30 +71,15 @@ public class App {
                 .withCustomDeltaTime(oneDayMillis);
         engine.run(15);
 
-        String computerJson = getJson(computer);
+        EntityExporter jsonExporter = new ComputerJsonExporter();
+        String computerJson = jsonExporter.exportEntityToString(computer);
 
         System.out.println("Serialized:");
         System.out.println(computerJson);
 
-        try {
-            ObjectMapper readMapper = new ObjectMapper();
-            System.out.println("Deserialized:");
-            readMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            Computer deserializedComputer = readMapper.readValue(computerJson, Computer.class);
-            System.out.println(deserializedComputer.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        EntityImporter jsonImporter = new ComputerJsonImporter();
+        Computer imported = (Computer) jsonImporter.importEntityFromString(computerJson);
+        System.out.println(imported.toString());
     }
 
-    // TODO move to dedicated class
-    private static String getJson(Computer computer) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(computer);
-        } catch (JsonProcessingException ex) {
-            System.out.println("Error: " + ex.getMessage());
-            return "";
-        }
-    }
 }
