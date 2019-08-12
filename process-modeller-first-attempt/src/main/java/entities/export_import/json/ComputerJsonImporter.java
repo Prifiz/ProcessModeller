@@ -7,25 +7,33 @@ import entities.system.Computer;
 import entities.system.ImportedEntity;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ComputerJsonImporter implements EntityImporter {
 
     @Override
-    public ImportedEntity importEntityFromFile(String filePath) {
-        return null;
+    public ImportedEntity importEntityFromFile(String fileLocation) {
+        try {
+            Path filePath = Paths.get(fileLocation);
+            String content = new String(Files.readAllBytes(filePath));
+            return importEntityFromString(content);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
 
-    // implement some kind of orElse() method
-
+    // implement some kind of orElse() method or null object pattern
     @Override
     public ImportedEntity importEntityFromString(String serializedString) {
         try {
             ObjectMapper readMapper = new ObjectMapper();
-            System.out.println("Deserialized:");
             readMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return readMapper.readValue(serializedString, Computer.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
             return null;
         }
     }

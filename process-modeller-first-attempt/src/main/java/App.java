@@ -74,12 +74,13 @@ public class App {
         EntityExporter jsonExporter = new ComputerJsonExporter();
         String computerJson = jsonExporter.exportEntityToString(computer);
 
-        System.out.println("Serialized:");
-        System.out.println(computerJson);
-        jsonExporter.exportEntityToFile(computer, "computer.json");
+//        System.out.println("Serialized:");
+//        System.out.println(computerJson);
+//        jsonExporter.exportEntityToFile(computer, "computer.json");
 
         EntityImporter jsonImporter = new ComputerJsonImporter();
-        Computer imported = (Computer) jsonImporter.importEntityFromString(computerJson);
+        Computer imported = (Computer) jsonImporter.importEntityFromFile("computer.json");
+        System.out.println("Deserialized:");
         System.out.println(imported.toString());
     }
 

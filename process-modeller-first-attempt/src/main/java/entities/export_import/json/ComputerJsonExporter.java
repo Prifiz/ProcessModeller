@@ -22,8 +22,8 @@ public class ComputerJsonExporter implements EntityExporter {
                     filePath,
                     exportEntityToString(exportedEntity).getBytes(StandardCharsets.UTF_8),
                     StandardOpenOption.WRITE);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
