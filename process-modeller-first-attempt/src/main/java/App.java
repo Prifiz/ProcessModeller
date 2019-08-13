@@ -50,6 +50,12 @@ public class App {
 
         computer.addStorage(storageDevice);
 
+        StorageDevice storageDevice2 = new SimpleHdd("HDD_2", 2000)
+                .canReadAt(200)
+                .canWriteAt(100);
+
+        computer.addStorage(storageDevice2);
+
         // todo for each process its own logger; for each hwe/computer maybe too
         computer.attachLogger(new ComputerStateLogger(computer));
         //computer.attachLogger(new ProcessLogger(computer.getOs()));
@@ -60,8 +66,6 @@ public class App {
         admin.registerProcess(computer, consumer500mbPerDay);
         admin.registerProcess(computer, consumer100mbPerDay);
 
-        //getJson(computer);
-
         SimpleSystem system = new SimpleSystem();
         system.add(computer);
 
@@ -71,17 +75,17 @@ public class App {
                 .withCustomDeltaTime(oneDayMillis);
         engine.run(15);
 
-        EntityExporter jsonExporter = new ComputerJsonExporter();
-        String computerJson = jsonExporter.exportEntityToString(computer);
+//        EntityExporter jsonExporter = new ComputerJsonExporter();
+//        String computerJson = jsonExporter.exportEntityToString(computer);
 
 //        System.out.println("Serialized:");
 //        System.out.println(computerJson);
 //        jsonExporter.exportEntityToFile(computer, "computer.json");
 
-        EntityImporter jsonImporter = new ComputerJsonImporter();
-        Computer imported = (Computer) jsonImporter.importEntityFromFile("computer.json");
-        System.out.println("Deserialized:");
-        System.out.println(imported.toString());
+//        EntityImporter jsonImporter = new ComputerJsonImporter();
+//        Computer imported = (Computer) jsonImporter.importEntityFromFile("computer.json");
+//        System.out.println("Deserialized:");
+//        System.out.println(imported.toString());
     }
 
 }

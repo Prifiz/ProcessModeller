@@ -29,7 +29,8 @@ public class ComputerStateLogger implements Logger {
 
             System.out.println(
                     String.format(
-                            "Total storage used space: [%s]",
+                            "Total storage [%s] used space: [%s]",
+                            ((StorageDevice) storage).getLabel(),
                             ((StorageDevice) storage).getUsedSpace() / 1024 / 1024));
         });
 
