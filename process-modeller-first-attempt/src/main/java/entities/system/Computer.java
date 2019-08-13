@@ -31,7 +31,7 @@ public class Computer<S extends StorageDevice> implements LoggedEntity, Exported
 
     @JsonIgnore
     private List<Logger> loggers = new ArrayList<>();
-    //@JsonIgnore
+
     @JsonProperty
     private OperatingSystem<S> os;
 
@@ -47,7 +47,10 @@ public class Computer<S extends StorageDevice> implements LoggedEntity, Exported
     }
 
     @JsonCreator
-    public Computer(@JsonProperty("label") String label, @JsonProperty("hwe") HweImproved<S> hwe, @JsonProperty("nodeStatus") NodeStatus nodeStatus, @JsonProperty("os") OperatingSystem<S> os) {
+    public Computer(@JsonProperty("label") String label,
+                    @JsonProperty("hwe") HweImproved<S> hwe,
+                    @JsonProperty("nodeStatus") NodeStatus nodeStatus,
+                    @JsonProperty("os") OperatingSystem<S> os) {
         this.label = label;
         this.hwe = hwe;
         this.nodeStatus = nodeStatus;

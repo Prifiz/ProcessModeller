@@ -1,16 +1,12 @@
 import entities.engine.LimitedStepsEngine;
-import entities.engine.SimpleModellingEngine;
-import entities.export_import.EntityExporter;
-import entities.export_import.EntityImporter;
-import entities.export_import.json.ComputerJsonExporter;
-import entities.export_import.json.ComputerJsonImporter;
+import entities.engine.impl.SimpleModellingEngine;
 import entities.processes.AbstractProcess;
 import entities.processes.SimpleLinearDiskConsumer;
 import entities.system.*;
 import entities.system.hwe.storages.SimpleHdd;
 import entities.system.hwe.storages.StorageDevice;
-import entities.system.logger.ComputerStateLogger;
-import entities.system.logger.SimpleLinearDiskConsumerConsoleLogger;
+import entities.system.logger.impl.ComputerStateLogger;
+import entities.system.logger.impl.SimpleLinearDiskConsumerConsoleLogger;
 
 public class App {
 

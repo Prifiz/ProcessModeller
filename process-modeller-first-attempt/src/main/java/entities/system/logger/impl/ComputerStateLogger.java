@@ -1,7 +1,8 @@
-package entities.system.logger;
+package entities.system.logger.impl;
 
 import entities.system.Computer;
 import entities.system.hwe.storages.StorageDevice;
+import entities.system.logger.Logger;
 import lombok.Getter;
 
 @Getter
