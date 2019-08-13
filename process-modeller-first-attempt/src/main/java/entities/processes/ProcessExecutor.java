@@ -3,16 +3,20 @@ package entities.processes;
 import entities.system.hwe.HweEntry;
 import lombok.Getter;
 
+import java.util.Optional;
+
 @Getter
-public abstract class ProcessExecutor {
+public class ProcessExecutor<E extends HweEntry> {
 
-    private AbstractProcess process;
-    private HweEntry hweEntry;
+    private AbstractProcess<E> process;
+    private Optional<E> hweEntry;
 
-    public ProcessExecutor(AbstractProcess process, HweEntry hweEntry) {
+    public ProcessExecutor(AbstractProcess<E> process, Optional<E> hweEntry) {
         this.process = process;
         this.hweEntry = hweEntry;
     }
 
-    public abstract void execute(long deltaTime);
+    public void execute(long deltaTime) {
+        hweEntry.ifPresent(entry -> process.useHweEntry(entry, deltaTime));
+    }
 }

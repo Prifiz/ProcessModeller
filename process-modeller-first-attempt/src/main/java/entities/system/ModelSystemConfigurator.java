@@ -1,7 +1,5 @@
 package entities.system;
 
-import entities.system.Computer;
-
 public class ModelSystemConfigurator {
 //
 //    private ModelSystem system;

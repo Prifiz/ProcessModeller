@@ -15,7 +15,7 @@ public class SimpleLinearDiskConsumerConsoleLogger implements Logger {
 
     @Override
     public void doLog() {
-        System.out.println(String.format("Process: [%s]\tConsumed space: [%s]",
+        System.out.println(String.format("Process: [%s]\tUses HDD: [???]\tConsumed space: [%s]",
                 simpleLinearDiskConsumer.getProcessName(),
                 simpleLinearDiskConsumer.getJustConsumed()));
     }

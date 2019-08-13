@@ -44,7 +44,7 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
     } // fixme replace with javax.metrics
 
     private long bytesToMb(long bytes) {
-        return  bytes / 1024 / 1024;
+        return bytes / 1024 / 1024;
     }
 
     @Override

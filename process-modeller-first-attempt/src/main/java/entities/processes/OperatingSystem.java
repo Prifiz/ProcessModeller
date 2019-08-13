@@ -1,17 +1,11 @@
 package entities.processes;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import entities.system.hwe.HweImproved;
+import entities.system.hwe.HweUsagePolicy;
 import entities.system.hwe.storages.StorageDevice;
-import entities.system.hwe.storages.StorageType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +18,11 @@ import java.util.Optional;
 public class OperatingSystem<S extends StorageDevice> implements ProcessManager<S> {
 
     @JsonProperty
-    private List<AbstractProcess<S>> processes = new LinkedList<>(); // needed mapping to hwe!!! // processpool?
+    //private List<AbstractProcess<S>> processes = new LinkedList<>(); // needed mapping to hwe!!! // processpool?
+
+    private List<ProcessExecutor<S>> processes = new LinkedList<>();
+
+    // what happens if hwe removed? unregister the linked processes!
 
     @JsonProperty
     private long currentOsTime = 0L;
@@ -36,23 +34,18 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
 //    }
 
     @Override
-    public void registerProcess(AbstractProcess<S> process) {
-//        HweUsagePolicy policy = process.getHweUsagePolicy();
-//        policy.getAllowedHdds().forEach(hdd -> {
-//            processes.add(process);
-//        });
-        processes.add(process);
+    public void registerProcess(AbstractProcess<S> process, HweUsagePolicy<S> policy, HweImproved<S> hweImproved) {
+        List<S> availableStorages = hweImproved.getStorages();
+        policy.getAllowedHdds(availableStorages).forEach(hdd -> {
+            processes.add(new ProcessExecutor<>(process, Optional.of(hdd)));
+        });
     }
 
 
     public void runAllProcesses(HweImproved<S> hwe, long currentSystemTime) {
         long deltaTime = currentSystemTime - currentOsTime;
         processes.forEach(process -> {
-            Optional<S> device = hwe.getFirstStorageByType(StorageType.HDD); // workaround simplification for prototype
-            if(device.isPresent()) {
-                S hdd = device.get();
-                process.useHweEntry(hdd, deltaTime);
-            }
+            process.execute(deltaTime);
         });
         currentOsTime = currentSystemTime;
     }

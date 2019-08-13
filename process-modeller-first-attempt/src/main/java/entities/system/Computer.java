@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import entities.processes.AbstractProcess;
 import entities.processes.OperatingSystem;
 import entities.system.hwe.HweImproved;
+import entities.system.hwe.HweUsagePolicy;
 import entities.system.hwe.storages.StorageDevice;
 import entities.system.logger.LoggedEntity;
 import entities.system.logger.Logger;
@@ -57,10 +58,6 @@ public class Computer<S extends StorageDevice> implements LoggedEntity, Exported
         this.os = os;
     }
 
-    public void addProcess(AbstractProcess<S> process) {
-        os.registerProcess(process);
-    }
-
     // maybe remove hwe as a separate object - no dedicated behavior!
     public void addStorage(S storageDevice) {
         this.hwe.addStorage(storageDevice);
@@ -95,5 +92,9 @@ public class Computer<S extends StorageDevice> implements LoggedEntity, Exported
     @Override
     public void notifyAllLoggers() {
         loggers.forEach(Logger::doLog);
+    }
+
+    public void registerProcess(AbstractProcess<S> process, HweUsagePolicy<S> policy) {
+        os.registerProcess(process, policy, hwe);
     }
 }

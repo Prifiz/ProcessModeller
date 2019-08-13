@@ -1,6 +1,5 @@
 package entities.system;
 
-import entities.system.Computer;
 import lombok.Getter;
 
 import java.util.LinkedList;

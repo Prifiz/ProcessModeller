@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import entities.system.logger.LoggedEntity;
-import entities.system.logger.Logger;
 import entities.system.hwe.HweEntry;
 import entities.system.hwe.HweUsagePolicy;
+import entities.system.logger.LoggedEntity;
+import entities.system.logger.Logger;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,8 +28,11 @@ public abstract class AbstractProcess<E extends HweEntry> implements Process<E>,
     protected String processId;
     @JsonProperty
     protected String processName;
+    @JsonProperty
+    protected HweUsagePolicy hweUsagePolicy; // can be several policies; applied one upon one;
     @JsonIgnore
     protected List<Logger> loggers = new ArrayList<>();
+
 
     public AbstractProcess(String processName) {
         this.processName = processName;
@@ -46,9 +49,6 @@ public abstract class AbstractProcess<E extends HweEntry> implements Process<E>,
         this.processId = processId;
     }
 
-
-    @JsonProperty
-    protected HweUsagePolicy hweUsagePolicy; // can be several policies; applied one upon one;
 
     // TODO change this field & method below in future!
 

@@ -2,7 +2,11 @@ import entities.engine.LimitedStepsEngine;
 import entities.engine.impl.SimpleModellingEngine;
 import entities.processes.AbstractProcess;
 import entities.processes.SimpleLinearDiskConsumer;
-import entities.system.*;
+import entities.system.Computer;
+import entities.system.ComputerAdmin;
+import entities.system.SimpleSystem;
+import entities.system.hwe.AllFoundPolicy;
+import entities.system.hwe.HweUsagePolicy;
 import entities.system.hwe.storages.SimpleHdd;
 import entities.system.hwe.storages.StorageDevice;
 import entities.system.logger.impl.ComputerStateLogger;
@@ -59,8 +63,10 @@ public class App {
         computer.turnOn();
 
         ComputerAdmin admin = new ComputerAdmin();
-        admin.registerProcess(computer, consumer500mbPerDay);
-        admin.registerProcess(computer, consumer100mbPerDay);
+        HweUsagePolicy consumer500mbPerDayPolicy = new AllFoundPolicy();
+        HweUsagePolicy consumer100mbPerDayPolicy = new AllFoundPolicy();
+        admin.registerProcess(computer, consumer500mbPerDay, consumer500mbPerDayPolicy);
+        admin.registerProcess(computer, consumer100mbPerDay, consumer100mbPerDayPolicy);
 
         SimpleSystem system = new SimpleSystem();
         system.add(computer);
