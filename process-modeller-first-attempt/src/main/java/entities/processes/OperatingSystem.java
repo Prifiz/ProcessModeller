@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import entities.system.hwe.HweImproved;
 import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.hwe.storages.StorageDevice;
+import entities.system.logger.impl.ProcessExecutorConsoleLogger;
 import lombok.*;
 
 import java.util.LinkedList;
@@ -37,7 +38,9 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
     public void registerProcess(AbstractProcess<S> process, HweUsagePolicy<S> policy, HweImproved<S> hweImproved) {
         List<S> availableStorages = hweImproved.getStorages();
         policy.getAllowedHdds(availableStorages).forEach(hdd -> {
-            processes.add(new ProcessExecutor<>(process, Optional.of(hdd)));
+            ProcessExecutor<S> processExecutor = new ProcessExecutor<>(process, Optional.of(hdd));
+            processExecutor.attachLogger(new ProcessExecutorConsoleLogger(processExecutor));
+            processes.add(processExecutor);
         });
     }
 
@@ -46,6 +49,7 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
         long deltaTime = currentSystemTime - currentOsTime;
         processes.forEach(process -> {
             process.execute(deltaTime);
+            process.notifyAllLoggers();
         });
         currentOsTime = currentSystemTime;
     }
