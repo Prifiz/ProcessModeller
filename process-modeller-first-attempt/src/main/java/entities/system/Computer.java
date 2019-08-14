@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import entities.processes.AbstractProcess;
 import entities.processes.OperatingSystem;
 import entities.system.hwe.HweImproved;
-import entities.system.hwe.HweUsagePolicy;
+import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.hwe.storages.StorageDevice;
 import entities.system.logger.LoggedEntity;
 import entities.system.logger.Logger;

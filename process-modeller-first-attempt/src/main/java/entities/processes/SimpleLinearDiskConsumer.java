@@ -2,7 +2,7 @@ package entities.processes;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import entities.system.hwe.HweUsagePolicy;
+import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.hwe.storages.SimpleHdd;
 import lombok.Getter;
 import lombok.Setter;

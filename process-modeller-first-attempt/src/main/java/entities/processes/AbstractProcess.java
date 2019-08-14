@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import entities.system.hwe.HweEntry;
-import entities.system.hwe.HweUsagePolicy;
+import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.logger.LoggedEntity;
 import entities.system.logger.Logger;
 import lombok.Getter;

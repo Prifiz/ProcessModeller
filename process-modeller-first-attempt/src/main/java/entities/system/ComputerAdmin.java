@@ -1,7 +1,7 @@
 package entities.system;
 
 import entities.processes.AbstractProcess;
-import entities.system.hwe.HweUsagePolicy;
+import entities.system.hwe.policies.HweUsagePolicy;
 
 public class ComputerAdmin {
 

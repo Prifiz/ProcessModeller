@@ -1,7 +1,7 @@
 package entities.processes;
 
 import entities.system.hwe.HweImproved;
-import entities.system.hwe.HweUsagePolicy;
+import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.hwe.storages.StorageDevice;
 
 // TODO sometimes it's worth specifying memory for a process group

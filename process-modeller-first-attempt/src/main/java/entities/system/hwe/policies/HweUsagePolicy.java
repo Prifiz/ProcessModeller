@@ -1,4 +1,4 @@
-package entities.system.hwe;
+package entities.system.hwe.policies;
 
 import entities.system.hwe.storages.StorageDevice;
 

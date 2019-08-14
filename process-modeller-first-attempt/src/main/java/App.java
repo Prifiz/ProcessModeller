@@ -5,12 +5,16 @@ import entities.processes.SimpleLinearDiskConsumer;
 import entities.system.Computer;
 import entities.system.ComputerAdmin;
 import entities.system.SimpleSystem;
-import entities.system.hwe.AllFoundPolicy;
-import entities.system.hwe.HweUsagePolicy;
+import entities.system.hwe.policies.AllFoundPolicy;
+import entities.system.hwe.policies.LabelBasedPolicy;
+import entities.system.hwe.policies.UserSpecifiedHweUsagePolicy;
+import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.hwe.storages.SimpleHdd;
 import entities.system.hwe.storages.StorageDevice;
 import entities.system.logger.impl.ComputerStateLogger;
 import entities.system.logger.impl.SimpleLinearDiskConsumerConsoleLogger;
+
+import java.util.Collections;
 
 public class App {
 
@@ -50,7 +54,7 @@ public class App {
 
         computer.addStorage(storageDevice);
 
-        StorageDevice storageDevice2 = new SimpleHdd("HDD_2", 2000)
+        StorageDevice storageDevice2 = new SimpleHdd("HDD_2222", 2000)
                 .canReadAt(200)
                 .canWriteAt(100);
 
@@ -63,8 +67,8 @@ public class App {
         computer.turnOn();
 
         ComputerAdmin admin = new ComputerAdmin();
-        HweUsagePolicy consumer500mbPerDayPolicy = new AllFoundPolicy();
-        HweUsagePolicy consumer100mbPerDayPolicy = new AllFoundPolicy();
+        HweUsagePolicy<StorageDevice> consumer500mbPerDayPolicy = new AllFoundPolicy<>();
+        HweUsagePolicy<StorageDevice> consumer100mbPerDayPolicy = new LabelBasedPolicy<>("HDD_2[0-9]+");
         admin.registerProcess(computer, consumer500mbPerDay, consumer500mbPerDayPolicy);
         admin.registerProcess(computer, consumer100mbPerDay, consumer100mbPerDayPolicy);
 
