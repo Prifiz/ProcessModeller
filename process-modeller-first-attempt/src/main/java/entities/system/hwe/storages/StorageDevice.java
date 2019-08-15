@@ -52,4 +52,10 @@ public class StorageDevice extends HweEntry {
     public void consumeSpace(long bytes) {
         usedSpace += bytes;
     }
+
+    public void cleanupSpace(long bytes) {
+        if (usedSpace > bytes) {
+            usedSpace -= bytes;
+        }
+    }
 }

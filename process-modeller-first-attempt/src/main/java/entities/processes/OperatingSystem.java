@@ -21,7 +21,7 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
     @JsonProperty
     //private List<AbstractProcess<S>> processes = new LinkedList<>(); // needed mapping to hwe!!! // processpool?
 
-    private List<ProcessExecutor<S>> processes = new LinkedList<>();
+    private List<ProcessExecutor<S>> processExecutors = new LinkedList<>();
 
     // what happens if hwe removed? unregister the linked processes!
 
@@ -39,15 +39,18 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
         List<S> availableStorages = hweImproved.getStorages();
         policy.getAllowedHdds(availableStorages).forEach(hdd -> {
             ProcessExecutor<S> processExecutor = new ProcessExecutor<>(process, Optional.of(hdd));
-            processExecutor.attachLogger(new ProcessExecutorConsoleLogger(processExecutor));
-            processes.add(processExecutor);
+            //processExecutor.attachLogger(new ProcessExecutorConsoleLogger(processExecutor));
+            processExecutors.add(processExecutor);
         });
     }
 
+    public void updatePolicies() { // e.g. for most-free hdd policy, i.e. recalculate free hdd
+
+    }
 
     public void runAllProcesses(HweImproved<S> hwe, long currentSystemTime) {
         long deltaTime = currentSystemTime - currentOsTime;
-        processes.forEach(process -> {
+        processExecutors.forEach(process -> {
             process.execute(deltaTime);
             process.notifyAllLoggers();
         });

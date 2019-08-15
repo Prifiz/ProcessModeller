@@ -17,7 +17,7 @@ public class ProcessLogger implements Logger {
     @Override
     public void doLog() {
         System.out.println(String.format("Current OS time: %s", os.getCurrentOsTime()));
-        os.getProcesses().forEach(process -> {
+        os.getProcessExecutors().forEach(process -> {
             System.out.println(String.format("Process: [%s]\tUsed hdd: [%s]",
                     process.getProcess().getProcessName(),
                     process.getHweEntry().get().getLabel()));

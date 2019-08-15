@@ -1,7 +1,8 @@
-package entities.processes;
+package entities.processes.storages;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import entities.processes.AbstractProcess;
 import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.hwe.storages.SimpleHdd;
 import lombok.Getter;
@@ -25,11 +26,10 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
 
     @JsonCreator
     public SimpleLinearDiskConsumer(@JsonProperty("processName") String processName,
-                                    @JsonProperty("hweUsagePolicy") HweUsagePolicy hweUsagePolicy,
                                     @JsonProperty("processId") String processId,
                                     @JsonProperty("diskConsumingSpeed") float diskConsumingSpeed,
                                     @JsonProperty("justConsumed") long justConsumed) {
-        super(processName, hweUsagePolicy, processId);
+        super(processName, processId);
         this.diskConsumingSpeed = diskConsumingSpeed;
         this.justConsumed = justConsumed;
     }
@@ -37,14 +37,6 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
     public SimpleLinearDiskConsumer consumesMbPerDay(long mbytes) {
         this.diskConsumingSpeed = mbytesToBytes(mbytes) * 1.0f / (24 * 3600 * 1000);
         return this;
-    }
-
-    private long mbytesToBytes(long mbytes) {
-        return mbytes * 1024 * 1024;
-    } // fixme replace with javax.metrics
-
-    private long bytesToMb(long bytes) {
-        return bytes / 1024 / 1024;
     }
 
     @Override

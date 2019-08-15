@@ -1,20 +1,18 @@
 import entities.engine.LimitedStepsEngine;
 import entities.engine.impl.SimpleModellingEngine;
 import entities.processes.AbstractProcess;
-import entities.processes.SimpleLinearDiskConsumer;
+import entities.processes.storages.PeriodicDiskCleaner;
+import entities.processes.storages.SimpleLinearDiskConsumer;
 import entities.system.Computer;
 import entities.system.ComputerAdmin;
 import entities.system.SimpleSystem;
 import entities.system.hwe.policies.AllFoundPolicy;
 import entities.system.hwe.policies.LabelBasedPolicy;
-import entities.system.hwe.policies.UserSpecifiedHweUsagePolicy;
 import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.hwe.storages.SimpleHdd;
 import entities.system.hwe.storages.StorageDevice;
 import entities.system.logger.impl.ComputerStateLogger;
 import entities.system.logger.impl.SimpleLinearDiskConsumerConsoleLogger;
-
-import java.util.Collections;
 
 public class App {
 
@@ -37,14 +35,20 @@ public class App {
                 new SimpleLinearDiskConsumer("500 per day")
                         .consumesMbPerDay(500);
 
-        consumer500mbPerDay.attachLogger(new SimpleLinearDiskConsumerConsoleLogger(
-                (SimpleLinearDiskConsumer) consumer500mbPerDay));
+//        consumer500mbPerDay.attachLogger(new SimpleLinearDiskConsumerConsoleLogger(
+//                (SimpleLinearDiskConsumer) consumer500mbPerDay));
 
         AbstractProcess consumer100mbPerDay =
                 new SimpleLinearDiskConsumer("100 per day")
                         .consumesMbPerDay(100);
 
-        consumer100mbPerDay.attachLogger(new SimpleLinearDiskConsumerConsoleLogger((SimpleLinearDiskConsumer) consumer100mbPerDay));
+//        consumer100mbPerDay.attachLogger(new SimpleLinearDiskConsumerConsoleLogger((SimpleLinearDiskConsumer) consumer100mbPerDay));
+
+        AbstractProcess dailyCleanup = new PeriodicDiskCleaner("Cleanup 100Mb each 3rd day")
+                .cleansMbytes(100)
+                .oncePerDays(3);
+
+
 
         Computer<StorageDevice> computer = new Computer<>("Comp with HDD"); // todo different devices types
 
@@ -69,8 +73,10 @@ public class App {
         ComputerAdmin admin = new ComputerAdmin();
         HweUsagePolicy<StorageDevice> consumer500mbPerDayPolicy = new AllFoundPolicy<>();
         HweUsagePolicy<StorageDevice> consumer100mbPerDayPolicy = new LabelBasedPolicy<>("HDD_2[0-9]+");
+        HweUsagePolicy<StorageDevice> cleanupPolicy = new AllFoundPolicy<>();
         admin.registerProcess(computer, consumer500mbPerDay, consumer500mbPerDayPolicy);
-        admin.registerProcess(computer, consumer100mbPerDay, consumer100mbPerDayPolicy);
+//        admin.registerProcess(computer, consumer100mbPerDay, consumer100mbPerDayPolicy);
+        admin.registerProcess(computer, dailyCleanup, cleanupPolicy);
 
         SimpleSystem system = new SimpleSystem();
         system.add(computer);

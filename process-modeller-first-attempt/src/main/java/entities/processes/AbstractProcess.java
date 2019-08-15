@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import entities.processes.storages.SimpleLinearDiskConsumer;
 import entities.system.hwe.HweEntry;
-import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.logger.LoggedEntity;
 import entities.system.logger.Logger;
 import lombok.Getter;
@@ -28,8 +28,6 @@ public abstract class AbstractProcess<E extends HweEntry> implements Process<E>,
     protected String processId;
     @JsonProperty
     protected String processName;
-    @JsonProperty
-    protected HweUsagePolicy hweUsagePolicy; // can be several policies; applied one upon one;
     @JsonIgnore
     protected List<Logger> loggers = new ArrayList<>();
 
@@ -42,19 +40,20 @@ public abstract class AbstractProcess<E extends HweEntry> implements Process<E>,
     @JsonCreator
     public AbstractProcess(
             @JsonProperty("processName") String processName,
-            @JsonProperty("hweUsagePolicy") HweUsagePolicy hweUsagePolicy,
             @JsonProperty("processId") String processId) {
         this.processName = processName;
-        this.hweUsagePolicy = hweUsagePolicy;
         this.processId = processId;
     }
 
+    protected long mbytesToBytes(long mbytes) {
+        return mbytes * 1024 * 1024;
+    } // fixme replace with javax.metrics
+
+    protected long bytesToMb(long bytes) {
+        return bytes / 1024 / 1024;
+    }
 
     // TODO change this field & method below in future!
-
-    public void addPolicy(HweUsagePolicy manualPolicy) {
-        this.hweUsagePolicy = manualPolicy;
-    }
 
     // requirements
 

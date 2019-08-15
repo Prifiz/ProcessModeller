@@ -1,6 +1,6 @@
 package entities.system.logger.impl;
 
-import entities.processes.SimpleLinearDiskConsumer;
+import entities.processes.storages.SimpleLinearDiskConsumer;
 import entities.system.logger.Logger;
 import lombok.Getter;
 

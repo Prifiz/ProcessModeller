@@ -19,9 +19,9 @@ public class ComputerStateLogger implements Logger {
 
         System.out.println(
                 String.format(
-                        "OS current time for computer [%s] is [%s]",
+                        "OS current time for computer [%s] is [%s] days",
                         computer.getLabel(),
-                        computer.getOs().getCurrentOsTime()));
+                        computer.getOs().getCurrentOsTime() / 1000 / 3600 / 24));
 
         computer.getHwe().getStorages().forEach(storage -> {
 //                System.out.println(String.format("Storage '%s': ", storage.getLabel()));

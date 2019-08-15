@@ -17,6 +17,8 @@ import java.util.Optional;
 @ToString
 public class HweImproved<S extends StorageDevice> {
 
+
+
     @JsonProperty
     protected List<S> storages = new ArrayList<>();
 
