@@ -41,6 +41,7 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
 
     @Override
     public void useHweEntry(T hdd, long deltaTime) { // one process uses one hwe entry! todo create complex processes
+        System.out.println("[Consume] Working with Hwe: " + hdd.getLabel());
         long spaceToConsume = Math.round(deltaTime * diskConsumingSpeed);
         hdd.consumeSpace(spaceToConsume);
         this.justConsumed = bytesToMb(spaceToConsume);

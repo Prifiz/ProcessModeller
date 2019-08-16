@@ -28,10 +28,14 @@ public class PeriodicDiskCleaner<S extends StorageDevice> extends AbstractProces
 
     @Override
     public void useHweEntry(S hweEntry, long deltaTime) {
-        currentTime += deltaTime;
-        if (currentTime >= cleanupIntervalMillis) {
+        this.currentTime += deltaTime;
+        System.out.println("[Cleanup] Working with Hwe: " + hweEntry.getLabel());
+        System.out.println("[Cleanup] Current time: " + currentTime / 1000 / 3600 / 24);
+        if (this.currentTime >= cleanupIntervalMillis) {
+            System.out.println("[Cleanup] It's time to cleanup");
             hweEntry.cleanupSpace(bytesToCleanup);
-            currentTime = 0L;
+            this.currentTime = 0L;
+            System.out.println("[Cleanup] Current time after cleanup: " + currentTime / 1000 / 3600 / 24);
         }
     }
 }

@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import entities.system.hwe.HweImproved;
 import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.hwe.storages.StorageDevice;
-import entities.system.logger.impl.ProcessExecutorConsoleLogger;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -38,9 +41,14 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
     public void registerProcess(AbstractProcess<S> process, HweUsagePolicy<S> policy, HweImproved<S> hweImproved) {
         List<S> availableStorages = hweImproved.getStorages();
         policy.getAllowedHdds(availableStorages).forEach(hdd -> {
-            ProcessExecutor<S> processExecutor = new ProcessExecutor<>(process, Optional.of(hdd));
-            //processExecutor.attachLogger(new ProcessExecutorConsoleLogger(processExecutor));
-            processExecutors.add(processExecutor);
+            try {
+                ProcessExecutor<S> processExecutor = new ProcessExecutor<>(process.clone(), Optional.of(hdd));
+                //processExecutor.attachLogger(new ProcessExecutorConsoleLogger(processExecutor));
+                processExecutors.add(processExecutor);
+            } catch (CloneNotSupportedException ex) {
+                System.out.println("Couldn't clone process");
+                System.out.println(ex.getMessage());
+            }
         });
     }
 
@@ -50,6 +58,7 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
 
     public void runAllProcesses(HweImproved<S> hwe, long currentSystemTime) {
         long deltaTime = currentSystemTime - currentOsTime;
+        System.out.println("Delta time for all " + deltaTime / 1000 / 3600 / 24);
         processExecutors.forEach(process -> {
             process.execute(deltaTime);
             process.notifyAllLoggers();

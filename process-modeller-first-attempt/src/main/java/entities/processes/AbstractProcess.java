@@ -20,7 +20,7 @@ import java.util.List;
 @ToString
 @JsonDeserialize(as = SimpleLinearDiskConsumer.class) // fixme add custom deserializer for other subclasses
 // OR change model: construct concrete based on concrete type fields
-public abstract class AbstractProcess<E extends HweEntry> implements Process<E>, LoggedEntity {
+public abstract class AbstractProcess<E extends HweEntry> implements Process<E>, LoggedEntity, Cloneable {
 // todo use custom deserializer or some other staff for abstract class
     // retention LoggedEntity?
 
@@ -65,4 +65,10 @@ public abstract class AbstractProcess<E extends HweEntry> implements Process<E>,
         loggers.forEach(Logger::doLog);
     }
 
+    // TODO maybe deep clone() implementation needed
+    // FIXME fix unchecked issue
+    @Override
+    protected AbstractProcess<E> clone() throws CloneNotSupportedException {
+        return (AbstractProcess<E>) super.clone();
+    }
 }
