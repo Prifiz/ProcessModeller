@@ -71,4 +71,5 @@ public abstract class AbstractProcess<E extends HweEntry> implements Process<E>,
     protected AbstractProcess<E> clone() throws CloneNotSupportedException {
         return (AbstractProcess<E>) super.clone();
     }
+
 }

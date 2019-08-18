@@ -20,7 +20,7 @@ import java.util.Optional;
 @NoArgsConstructor
 @ToString
 public class OperatingSystem<S extends StorageDevice> implements ProcessManager<S> {
-
+// separate OS entities for different HWE types? HDD OS, SSD OS, RAM OS?..
     @JsonProperty
     //private List<AbstractProcess<S>> processes = new LinkedList<>(); // needed mapping to hwe!!! // processpool?
 
@@ -56,7 +56,17 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
 
     }
 
-    public void runAllProcesses(HweImproved<S> hwe, long currentSystemTime) {
+    private void checkProcesses(long deltaTime) {
+        processExecutors.forEach(executor -> {
+
+        });
+    }
+
+    // disk write speed for processes should be checked here, since
+    // several concurrent writes can change the check conditions
+
+
+    public void runAllProcesses(long currentSystemTime) {
         long deltaTime = currentSystemTime - currentOsTime;
         System.out.println("Delta time for all " + deltaTime / 1000 / 3600 / 24);
         processExecutors.forEach(process -> {

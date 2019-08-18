@@ -4,6 +4,7 @@ import entities.system.hwe.HweEntry;
 import entities.system.logger.LoggedEntity;
 import entities.system.logger.Logger;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,8 @@ public class ProcessExecutor<E extends HweEntry> implements LoggedEntity {
 
     private AbstractProcess<E> process;
     private Optional<E> hweEntry;
+    @Setter
+    private boolean canExecute;
 
     private List<Logger> loggers;
 
@@ -24,7 +27,11 @@ public class ProcessExecutor<E extends HweEntry> implements LoggedEntity {
     }
 
     public void execute(long deltaTime) {
-        hweEntry.ifPresent(entry -> process.useHweEntry(entry, deltaTime));
+        hweEntry.ifPresent(entry -> {
+
+            process.useHweEntry(entry, deltaTime);
+
+        });
     }
 
     @Override

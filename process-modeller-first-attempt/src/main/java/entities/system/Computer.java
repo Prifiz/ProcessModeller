@@ -78,7 +78,7 @@ public class Computer<S extends StorageDevice> implements LoggedEntity, Exported
 
     public void updateState(long currentSystemTime) {
         // free space changed, etc.
-        os.runAllProcesses(hwe, currentSystemTime);
+        os.runAllProcesses(currentSystemTime);
         notifyAllLoggers();
     }
 
