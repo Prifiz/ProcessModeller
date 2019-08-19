@@ -43,10 +43,26 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
     public void useHweEntry(T hdd, long deltaTime) { // one process uses one hwe entry! todo create complex processes
 
         System.out.println("[Consume] Working with Hwe: " + hdd.getLabel());
+
+        long writeSpeed = hdd.getWriteSpeed();
+        long maxAbleToWrite = Math.round(writeSpeed * deltaTime);
         long spaceToConsume = Math.round(deltaTime * diskConsumingSpeed);
-        hdd.consumeSpace(spaceToConsume);
-        this.justConsumed = bytesToMb(spaceToConsume);
+
+        long reallyConsumed = 0L;
+
+        // simple check; write only as much as possible, data loss, no cache, no queues
+        if (spaceToConsume <= maxAbleToWrite) {
+            System.out.println("It's okay to consume data");
+            reallyConsumed = spaceToConsume;
+        } else {
+            System.out.println("Couldn't consume the requested data, consuming max allowed by HDD");
+            reallyConsumed = maxAbleToWrite;
+        }
+
+        hdd.consumeSpace(reallyConsumed);
+        this.justConsumed = bytesToMb(reallyConsumed);
         notifyAllLoggers();
+
     }
 
 //    @Override

@@ -69,9 +69,9 @@ public class OperatingSystem<S extends StorageDevice> implements ProcessManager<
     public void runAllProcesses(long currentSystemTime) {
         long deltaTime = currentSystemTime - currentOsTime;
         System.out.println("Delta time for all " + deltaTime / 1000 / 3600 / 24);
-        processExecutors.forEach(process -> {
-            process.execute(deltaTime);
-            process.notifyAllLoggers();
+        processExecutors.forEach(processExecutor -> {
+            processExecutor.execute(deltaTime);
+            processExecutor.notifyAllLoggers();
         });
         currentOsTime = currentSystemTime;
     }
