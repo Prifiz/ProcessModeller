@@ -24,7 +24,13 @@ public class HddProcessExecutor {
         }
     }
 
+    public void unregisterFromHdd(AbstractProcess process, SimpleHdd hdd) {
+        processTable.unassignProcessFromHdd(process, hdd);
+    }
 
+    public void unregisterFromAllHdds(AbstractProcess process) {
+        processTable.unassignProcessFromAllHdds(process);
+    }
 
     //public void executeAllForHdd()
 

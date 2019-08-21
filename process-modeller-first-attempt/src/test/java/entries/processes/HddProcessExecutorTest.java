@@ -26,6 +26,10 @@ public class HddProcessExecutorTest {
 
         hddProcessExecutor.getProcessTable().printContents();
 
+        hddProcessExecutor.unregisterFromAllHdds(consumer1);
+
+        hddProcessExecutor.getProcessTable().printContents();
+
         Assert.assertTrue(true);
     }
 }

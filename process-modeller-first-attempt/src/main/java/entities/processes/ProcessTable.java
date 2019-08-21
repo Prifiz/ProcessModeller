@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+import java.util.stream.Stream;
 
 @Getter
 public class ProcessTable {
@@ -24,6 +25,21 @@ public class ProcessTable {
                 .filter(mapping -> hdd.equals(mapping.getHdd()))
                 .findFirst()
                 .ifPresent(foundHdd -> foundHdd.addProcess(process));
+    }
+
+    // fixme!!!
+    public void unassignProcessFromHdd(AbstractProcess process, SimpleHdd hdd) {
+        mappings.stream()
+                .filter(mapping -> hdd.equals(mapping.getHdd()))
+                .findFirst()
+                .ifPresent(mapping -> mapping.removeProcess(process));
+    }
+
+    // fixme!!!
+    public void unassignProcessFromAllHdds(AbstractProcess process) {
+        Stream<ProcessMapping> stream = mappings.stream()
+                .filter(mapping -> mapping.getProcessQueue().contains(process));
+        stream.forEach(mapping -> mapping.removeProcess(process));
     }
 
     public void printContents() {

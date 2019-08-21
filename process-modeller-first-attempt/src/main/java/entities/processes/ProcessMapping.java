@@ -20,4 +20,9 @@ public class ProcessMapping {
     public void addProcess(AbstractProcess process) {
         this.processQueue.add(process);
     }
+
+    public void removeProcess(AbstractProcess process) {
+        this.processQueue.remove(process);
+    }
+
 }
