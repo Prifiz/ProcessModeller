@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'groovy'
 }
 
 group 'com.home'
@@ -11,6 +12,29 @@ mainClassName = 'App'
 
 repositories {
     mavenCentral()
+    jcenter()
+}
+
+
+test {
+    testLogging {
+        // Make sure output from
+        // standard out or error is shown
+        // in Gradle output.
+        showStandardStreams = true
+
+        // Or we use events method:
+        // events 'standard_out', 'standard_error'
+
+        // Or set property events:
+        // events = ['standard_out', 'standard_error']
+
+        // Instead of string values we can
+        // use enum values:
+        // events org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT,
+        //        org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR,
+    }
+
 }
 
 dependencies {
@@ -19,4 +43,5 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     runtime 'javax.measure:unit-api:1.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9.3'
+    compile 'com.google.guava:guava:28.0-jre'
 }
