@@ -22,7 +22,8 @@ public class ProcessMapping {
     }
 
     public void removeProcess(AbstractProcess process) {
-        this.processQueue.remove(process);
+        this.processQueue.removeIf(processInQueue ->
+                processInQueue.getProcessName().equals(process.getProcessName()));
     }
 
 }

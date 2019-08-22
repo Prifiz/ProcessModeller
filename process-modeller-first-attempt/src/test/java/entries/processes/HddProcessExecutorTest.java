@@ -26,8 +26,10 @@ public class HddProcessExecutorTest {
 
         hddProcessExecutor.getProcessTable().printContents();
 
-        hddProcessExecutor.unregisterFromAllHdds(consumer1);
+        //hddProcessExecutor.unregisterFromAllHdds(consumer1);
+        hddProcessExecutor.unregisterFromHdd(consumer1, hdd2);
 
+        System.out.println("AFTER:");
         hddProcessExecutor.getProcessTable().printContents();
 
         Assert.assertTrue(true);

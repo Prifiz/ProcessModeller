@@ -6,7 +6,6 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import java.util.stream.Stream;
 
 @Getter
 public class ProcessTable {
@@ -27,23 +26,31 @@ public class ProcessTable {
                 .ifPresent(foundHdd -> foundHdd.addProcess(process));
     }
 
-    // fixme!!!
     public void unassignProcessFromHdd(AbstractProcess process, SimpleHdd hdd) {
         mappings.stream()
-                .filter(mapping -> hdd.equals(mapping.getHdd()))
+                .filter(mapping -> hdd.getLabel().equals(mapping.getHdd().getLabel()))
                 .findFirst()
                 .ifPresent(mapping -> mapping.removeProcess(process));
     }
 
-    // fixme!!!
     public void unassignProcessFromAllHdds(AbstractProcess process) {
-        Stream<ProcessMapping> stream = mappings.stream()
-                .filter(mapping -> mapping.getProcessQueue().contains(process));
-        stream.forEach(mapping -> mapping.removeProcess(process));
+        mappings.forEach(mapping -> {
+            mapping.getProcessQueue().forEach(processInQueue -> {
+                if(processInQueue.getProcessName().equals(process.getProcessName())) {
+                    mapping.removeProcess(process);
+                }
+            });
+        });
+
+//        mappings.forEach(mapping -> {
+//            System.out.println(mapping.getHdd().getLabel());
+//            printProcessQueue(mapping.getProcessQueue());
+//        });
+
     }
 
     public void printContents() {
-        mappings.forEach( mapping -> {
+        mappings.forEach(mapping -> {
             System.out.println(String.format("HDD: [%s]", mapping.getHdd().getLabel()));
             printProcessQueue(mapping.getProcessQueue());
         });
