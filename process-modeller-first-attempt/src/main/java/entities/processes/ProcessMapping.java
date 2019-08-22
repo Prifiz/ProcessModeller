@@ -26,4 +26,10 @@ public class ProcessMapping {
                 processInQueue.getProcessName().equals(process.getProcessName()));
     }
 
+    public void execute(long deltaTime) {
+        // todo check how much can be done during this delta, how many processes it can cover
+        // remove all completed processes from queue
+        // save process execution state after deltaTime (from which point it should proceed)
+    }
+
 }

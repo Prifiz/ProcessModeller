@@ -24,13 +24,23 @@ public class HddProcessExecutorTest {
         hddProcessExecutor.register(consumer1, hdd2);
         hddProcessExecutor.register(consumer2, hdd2);
 
+        System.out.println("==========");
+        System.out.println("BEFORE:");
+        System.out.println("==========");
         hddProcessExecutor.getProcessTable().printContents();
 
-        //hddProcessExecutor.unregisterFromAllHdds(consumer1);
-        hddProcessExecutor.unregisterFromHdd(consumer1, hdd2);
+//        hddProcessExecutor.unregisterFromAllHdds(consumer2);
+//        hddProcessExecutor.unregisterFromAllHdds(consumer1);
+//        hddProcessExecutor.unregisterFromHdd(consumer1, hdd2);
+//        hddProcessExecutor.register(consumer2, hdd1);
 
+        hddProcessExecutor.executeProcessesOnHdd(hdd1, 1000L);
+
+        System.out.println("==========");
         System.out.println("AFTER:");
+        System.out.println("==========");
         hddProcessExecutor.getProcessTable().printContents();
+        System.out.println("==========");
 
         Assert.assertTrue(true);
     }

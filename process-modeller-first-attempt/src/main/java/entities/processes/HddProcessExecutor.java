@@ -24,6 +24,10 @@ public class HddProcessExecutor {
         }
     }
 
+    public void executeProcessesOnHdd(SimpleHdd hdd, long deltaTime) {
+        processTable.runHddProcesses(hdd, deltaTime);
+    }
+
     public void unregisterFromHdd(AbstractProcess process, SimpleHdd hdd) {
         processTable.unassignProcessFromHdd(process, hdd);
     }

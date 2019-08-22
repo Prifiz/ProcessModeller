@@ -19,6 +19,13 @@ public class ProcessTable {
         });
     }
 
+    public void runHddProcesses(SimpleHdd hdd, long deltaTime) {
+        mappings.stream()
+                .filter(mapping -> hdd.equals(mapping.getHdd()))
+                .findFirst()
+                .ifPresent(matchingMapping -> matchingMapping.execute(deltaTime));
+    }
+
     public void assignProcessToHdd(AbstractProcess process, SimpleHdd hdd) {
         mappings.stream()
                 .filter(mapping -> hdd.equals(mapping.getHdd()))
