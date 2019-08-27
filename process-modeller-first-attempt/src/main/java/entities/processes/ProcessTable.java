@@ -1,5 +1,6 @@
 package entities.processes;
 
+import entities.processes.storages.AbstractDiskProcess;
 import entities.system.hwe.storages.SimpleHdd;
 import lombok.Getter;
 
@@ -10,12 +11,12 @@ import java.util.Queue;
 @Getter
 public class ProcessTable {
 
-    private List<ProcessMapping> mappings;
+    private List<UnlimitedProcessMapping> mappings;
 
     public ProcessTable(List<SimpleHdd> drives) {
         mappings = new ArrayList<>();
         drives.forEach(hdd -> {
-            mappings.add(new ProcessMapping(hdd));
+            mappings.add(new UnlimitedProcessMapping(hdd));
         });
     }
 
@@ -26,21 +27,21 @@ public class ProcessTable {
                 .ifPresent(matchingMapping -> matchingMapping.execute(deltaTime));
     }
 
-    public void assignProcessToHdd(AbstractProcess process, SimpleHdd hdd) {
+    public void assignProcessToHdd(AbstractDiskProcess process, SimpleHdd hdd) {
         mappings.stream()
                 .filter(mapping -> hdd.equals(mapping.getHdd()))
                 .findFirst()
                 .ifPresent(foundHdd -> foundHdd.addProcess(process));
     }
 
-    public void unassignProcessFromHdd(AbstractProcess process, SimpleHdd hdd) {
+    public void unassignProcessFromHdd(AbstractDiskProcess process, SimpleHdd hdd) {
         mappings.stream()
                 .filter(mapping -> hdd.getLabel().equals(mapping.getHdd().getLabel()))
                 .findFirst()
                 .ifPresent(mapping -> mapping.removeProcess(process));
     }
 
-    public void unassignProcessFromAllHdds(AbstractProcess process) {
+    public void unassignProcessFromAllHdds(AbstractDiskProcess process) {
         mappings.forEach(mapping -> {
             mapping.getProcessQueue().forEach(processInQueue -> {
                 if(processInQueue.getProcessName().equals(process.getProcessName())) {
@@ -63,7 +64,7 @@ public class ProcessTable {
         });
     }
 
-    private void printProcessQueue(Queue<AbstractProcess> processQueue) {
+    private void printProcessQueue(Queue<AbstractDiskProcess> processQueue) {
         processQueue.forEach(process -> System.out.println("\t" + process.getProcessName()));
     }
 }

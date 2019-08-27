@@ -3,6 +3,7 @@ package entries.processes;
 import com.google.common.collect.ImmutableList;
 import entities.processes.AbstractProcess;
 import entities.processes.HddProcessExecutor;
+import entities.processes.storages.AbstractDiskProcess;
 import entities.processes.storages.SimpleLinearDiskConsumer;
 import entities.system.hwe.storages.SimpleHdd;
 import org.junit.Assert;
@@ -13,8 +14,8 @@ public class HddProcessExecutorTest {
     @Test
     public void smokeTest() {
 
-        AbstractProcess consumer1 = new SimpleLinearDiskConsumer("Consumer_1");
-        AbstractProcess consumer2 = new SimpleLinearDiskConsumer("Consumer_2");
+        AbstractDiskProcess consumer1 = new SimpleLinearDiskConsumer("Consumer_1");
+        AbstractDiskProcess consumer2 = new SimpleLinearDiskConsumer("Consumer_2");
         SimpleHdd hdd1 = new SimpleHdd("HDD1", 1000);
         SimpleHdd hdd2 = new SimpleHdd("HDD2", 2000);
 

@@ -2,8 +2,6 @@ package entities.processes.storages;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import entities.processes.AbstractProcess;
-import entities.system.hwe.policies.HweUsagePolicy;
 import entities.system.hwe.storages.SimpleHdd;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,16 +10,23 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProcess<T> {
+public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractDiskProcess<T> {
 
     @JsonProperty
     private float diskConsumingSpeed; // bytes per millisecond
+
+
 
     @JsonProperty
     private long justConsumed = 0L;
 
     public SimpleLinearDiskConsumer(String processName) {
-        super(processName);
+        super(processName, DiskUsageType.WRITE);
+    }
+
+    @Override
+    public long getDiskUsageSpeed() {
+        return 0;
     }
 
     @JsonCreator
@@ -29,7 +34,7 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
                                     @JsonProperty("processId") String processId,
                                     @JsonProperty("diskConsumingSpeed") float diskConsumingSpeed,
                                     @JsonProperty("justConsumed") long justConsumed) {
-        super(processName, processId);
+        super(processName, processId, DiskUsageType.WRITE);
         this.diskConsumingSpeed = diskConsumingSpeed;
         this.justConsumed = justConsumed;
     }
@@ -64,6 +69,11 @@ public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractProce
         notifyAllLoggers();
 
     }
+
+//    @Override
+//    public long getTimeLimit() {
+//        return 0;
+//    }
 
 //    @Override
 //    public boolean canBeRunInParallel() {

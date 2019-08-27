@@ -1,11 +1,10 @@
 package entities.processes.storages;
 
-import entities.processes.AbstractProcess;
 import entities.system.hwe.storages.StorageDevice;
 import lombok.Getter;
 
 @Getter
-public class PeriodicDiskCleaner<S extends StorageDevice> extends AbstractProcess<S> {
+public class PeriodicDiskCleaner<S extends StorageDevice> extends AbstractDiskProcess<S> {
 
     private long cleanupIntervalMillis;
     private long bytesToCleanup;
@@ -13,7 +12,12 @@ public class PeriodicDiskCleaner<S extends StorageDevice> extends AbstractProces
     private long currentTime = 0L;
 
     public PeriodicDiskCleaner(String processName) {
-        super(processName);
+        super(processName, diskUsageType);
+    }
+
+    @Override
+    public long getDiskUsageSpeed() {
+        return 0;
     }
 
     public PeriodicDiskCleaner cleansMbytes(long mbytes) {
@@ -38,4 +42,9 @@ public class PeriodicDiskCleaner<S extends StorageDevice> extends AbstractProces
             System.out.println("[Cleanup] Current time after cleanup: " + currentTime / 1000 / 3600 / 24);
         }
     }
+
+//    @Override
+//    public long getTimeLimit() {
+//        return 0;
+//    }
 }
