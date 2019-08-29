@@ -58,4 +58,8 @@ public class StorageDevice extends HweEntry {
             usedSpace -= bytes;
         }
     }
+
+    public long getFreeSpace() {
+        return capacity - usedSpace;
+    }
 }

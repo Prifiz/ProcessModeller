@@ -9,15 +9,13 @@ public class PeriodicDiskCleaner<S extends StorageDevice> extends AbstractDiskPr
     private long cleanupIntervalMillis;
     private long bytesToCleanup;
 
-    private long currentTime = 0L;
-
     public PeriodicDiskCleaner(String processName) {
-        super(processName, diskUsageType);
+        super(processName, DiskUsageType.WRITE); // ????
     }
 
     @Override
-    public long getDiskUsageSpeed() {
-        return 0;
+    public long getBytesToUse(long deltaTime) {
+        return bytesToCleanup;
     }
 
     public PeriodicDiskCleaner cleansMbytes(long mbytes) {
@@ -30,21 +28,16 @@ public class PeriodicDiskCleaner<S extends StorageDevice> extends AbstractDiskPr
         return this;
     }
 
-    @Override
-    public void useHweEntry(S hweEntry, long deltaTime) {
-        this.currentTime += deltaTime;
-        System.out.println("[Cleanup] Working with Hwe: " + hweEntry.getLabel());
-        System.out.println("[Cleanup] Current time: " + currentTime / 1000 / 3600 / 24);
-        if (this.currentTime >= cleanupIntervalMillis) {
-            System.out.println("[Cleanup] It's time to cleanup");
-            hweEntry.cleanupSpace(bytesToCleanup);
-            this.currentTime = 0L;
-            System.out.println("[Cleanup] Current time after cleanup: " + currentTime / 1000 / 3600 / 24);
-        }
-    }
-
 //    @Override
-//    public long getTimeLimit() {
-//        return 0;
+//    public void useHweEntry(S hweEntry, long deltaTime) {
+//        this.currentTime += deltaTime;
+//        System.out.println("[Cleanup] Working with Hwe: " + hweEntry.getLabel());
+//        System.out.println("[Cleanup] Current time: " + currentTime / 1000 / 3600 / 24);
+//        if (this.currentTime >= cleanupIntervalMillis) {
+//            System.out.println("[Cleanup] It's time to cleanup");
+//            hweEntry.cleanupSpace(bytesToCleanup);
+//            this.currentTime = 0L;
+//            System.out.println("[Cleanup] Current time after cleanup: " + currentTime / 1000 / 3600 / 24);
+//        }
 //    }
 }

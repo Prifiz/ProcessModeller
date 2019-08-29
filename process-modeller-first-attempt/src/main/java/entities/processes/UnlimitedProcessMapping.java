@@ -1,20 +1,18 @@
 package entities.processes;
 
 import entities.processes.storages.AbstractDiskProcess;
-import entities.processes.storages.DiskUsageType;
 import entities.system.hwe.storages.SimpleHdd;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 @Getter
 public class UnlimitedProcessMapping {
 
     private SimpleHdd hdd;
-    private Queue<AbstractDiskProcess> processQueue;
+    private List<AbstractDiskProcess> processQueue;
+    private List<AbstractDiskProcess> healthyProcesses = new ArrayList<>();
+    private AbstractDiskProcess firstOverloadingProcess;
 
     public UnlimitedProcessMapping(SimpleHdd hdd) {
         this.hdd = hdd;
@@ -31,35 +29,40 @@ public class UnlimitedProcessMapping {
     }
 
     private void useHddSpace(long bytesToConsume) {
-
+        hdd.consumeSpace(bytesToConsume);
     }
 
+    public Collection<AbstractDiskProcess> getNotExecutedProcesses() {
+        List<AbstractDiskProcess> result = new ArrayList<>();
+        Collections.copy(result, processQueue);
+        result.removeAll(healthyProcesses);
+        return result;
+    }
 
     public void execute(long deltaTime) {
-        List<AbstractDiskProcess> idleProcesses = new ArrayList<>();
-        List<AbstractDiskProcess> workingProcesses = new ArrayList<>();
+        healthyProcesses.clear();
+        firstOverloadingProcess = null;
         long maxAllowedUsageSpeed = hdd.getWriteSpeed();
-        //if (DiskUsageType.WRITE.equals(process.getDiskUsageType())) {
-            //maxAllowedUsageSpeed = hdd.getWriteSpeed();
-        //}
-        for(AbstractDiskProcess process : processQueue) {
-            long processDiskUsageSpeed = process.getDiskUsageSpeed();
-
-            if (processDiskUsageSpeed < maxAllowedUsageSpeed) {// not by speed but by bytesAllowedToChange
-                useHddSpace(process.getBytesToUse(deltaTime));
-                maxAllowedUsageSpeed -= processDiskUsageSpeed;
-                workingProcesses.add(process);
+        long maxAllowedBytesToUse = maxAllowedUsageSpeed * deltaTime;
+        System.out.println("Working with HDD: " + hdd.getLabel());
+        for (AbstractDiskProcess process : processQueue) {
+            System.out.println("Trying to run process: " + process.getProcessName());
+            long requestedBytesToUse = process.getBytesToUse(deltaTime);
+            if (hdd.getFreeSpace() < requestedBytesToUse) {
+                System.out.println("No free space");
+                firstOverloadingProcess = process;
+                return;
+            }
+            if (requestedBytesToUse <= maxAllowedBytesToUse) {
+                useHddSpace(requestedBytesToUse);
+                maxAllowedBytesToUse -= requestedBytesToUse;
+                healthyProcesses.add(process);
+                System.out.println("Process done");
             } else {
-                long allowedBytesToUse = maxAllowedUsageSpeed * deltaTime;
-                if (allowedBytesToUse == 0) {
-                    idleProcesses.add(process);
-                } else {
-                    useHddSpace(allowedBytesToUse);
-                    process.setActualDiskUsageSpeed(maxAllowedUsageSpeed); // extra data to handle
-                    maxAllowedUsageSpeed = 0L;
-                }
+                System.out.println(String.format("Disk overload by process: [%s]", process.getProcessName()));
+                firstOverloadingProcess = process;
+                return;
             }
         }
-        processQueue.removeAll(idleProcesses);
     }
 }

@@ -12,7 +12,7 @@ public abstract class AbstractDiskProcess<S extends StorageDevice> extends Abstr
 
     @Getter
     @Setter
-    protected float requestedDiskUsageSpeed;
+    protected long requestedDiskUsageSpeed;
 
     @Getter
     @Setter
@@ -28,8 +28,11 @@ public abstract class AbstractDiskProcess<S extends StorageDevice> extends Abstr
         this.diskUsageType = diskUsageType;
     }
 
-    public abstract long getDiskUsageSpeed();
-
     public abstract long getBytesToUse(long deltaTime);
+
+    @Override
+    public AbstractDiskProcess<S> clone() throws CloneNotSupportedException {
+        return (AbstractDiskProcess<S>) super.clone();
+    }
 
 }

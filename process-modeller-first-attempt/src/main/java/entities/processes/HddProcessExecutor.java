@@ -1,5 +1,6 @@
 package entities.processes;
 
+import entities.processes.storages.AbstractDiskProcess;
 import entities.system.hwe.storages.SimpleHdd;
 import lombok.Getter;
 
@@ -14,7 +15,7 @@ public class HddProcessExecutor {
         processTable = new ProcessTable(drives);
     }
 
-    public void register(AbstractProcess process, SimpleHdd hdd) {
+    public void register(AbstractDiskProcess process, SimpleHdd hdd) {
         try {
             processTable.assignProcessToHdd(process.clone(), hdd);
         } catch (CloneNotSupportedException | IllegalArgumentException ex) {
@@ -28,11 +29,11 @@ public class HddProcessExecutor {
         processTable.runHddProcesses(hdd, deltaTime);
     }
 
-    public void unregisterFromHdd(AbstractProcess process, SimpleHdd hdd) {
+    public void unregisterFromHdd(AbstractDiskProcess process, SimpleHdd hdd) {
         processTable.unassignProcessFromHdd(process, hdd);
     }
 
-    public void unregisterFromAllHdds(AbstractProcess process) {
+    public void unregisterFromAllHdds(AbstractDiskProcess process) {
         processTable.unassignProcessFromAllHdds(process);
     }
 
