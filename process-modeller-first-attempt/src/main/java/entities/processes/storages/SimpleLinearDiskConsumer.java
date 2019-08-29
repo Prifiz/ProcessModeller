@@ -13,7 +13,7 @@ import lombok.ToString;
 public class SimpleLinearDiskConsumer<T extends SimpleHdd> extends AbstractDiskProcess<T> {
 
     @JsonProperty
-    private float diskConsumingSpeed; // bytes per millisecond
+    private double diskConsumingSpeed; // bytes per millisecond
 
     @JsonProperty
     private long justConsumed = 0L;

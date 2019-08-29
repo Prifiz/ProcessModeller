@@ -45,9 +45,11 @@ public class UnlimitedProcessMapping {
         long maxAllowedUsageSpeed = hdd.getWriteSpeed();
         long maxAllowedBytesToUse = maxAllowedUsageSpeed * deltaTime;
         System.out.println("Working with HDD: " + hdd.getLabel());
+        System.out.println("Max allowed Gb to use: " + maxAllowedBytesToUse/1024/1024/1024);
         for (AbstractDiskProcess process : processQueue) {
             System.out.println("Trying to run process: " + process.getProcessName());
             long requestedBytesToUse = process.getBytesToUse(deltaTime);
+            System.out.println("Process requested Gb: " + requestedBytesToUse/1024/1024/1024);
             System.out.println("Current free space Gb: " + hdd.getFreeSpace()/1024/1024/1024);
             if (hdd.getFreeSpace() < requestedBytesToUse) {
                 System.out.println("No free space");
