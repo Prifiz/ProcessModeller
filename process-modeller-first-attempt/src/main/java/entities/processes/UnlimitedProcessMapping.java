@@ -48,6 +48,7 @@ public class UnlimitedProcessMapping {
         for (AbstractDiskProcess process : processQueue) {
             System.out.println("Trying to run process: " + process.getProcessName());
             long requestedBytesToUse = process.getBytesToUse(deltaTime);
+            System.out.println("Current free space Gb: " + hdd.getFreeSpace()/1024/1024/1024);
             if (hdd.getFreeSpace() < requestedBytesToUse) {
                 System.out.println("No free space");
                 firstOverloadingProcess = process;
