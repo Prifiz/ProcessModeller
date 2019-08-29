@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'groovy'
+    id "com.vanniktech.dependency.graph.generator" version "0.5.0"
 }
 
 group 'com.home'
@@ -44,4 +45,6 @@ dependencies {
     runtime 'javax.measure:unit-api:1.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9.3'
     compile 'com.google.guava:guava:28.0-jre'
+
 }
+
