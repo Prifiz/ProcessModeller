@@ -13,6 +13,7 @@ public class UnlimitedProcessMapping {
     private List<AbstractDiskProcess> processQueue;
     private List<AbstractDiskProcess> healthyProcesses = new ArrayList<>();
     private AbstractDiskProcess firstOverloadingProcess;
+    private boolean canExecute = true;
 
     public UnlimitedProcessMapping(SimpleHdd hdd) {
         this.hdd = hdd;
@@ -54,6 +55,7 @@ public class UnlimitedProcessMapping {
             if (hdd.getFreeSpace() < requestedBytesToUse) {
                 System.out.println("No free space");
                 firstOverloadingProcess = process;
+                canExecute = false;
                 return;
             }
             if (requestedBytesToUse <= maxAllowedBytesToUse) {
@@ -64,6 +66,7 @@ public class UnlimitedProcessMapping {
             } else {
                 System.out.println(String.format("Disk overload by process: [%s]", process.getProcessName()));
                 firstOverloadingProcess = process;
+                canExecute = false;
                 return;
             }
         }

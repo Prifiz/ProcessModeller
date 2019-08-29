@@ -23,6 +23,7 @@ public class ProcessTable {
     public void runHddProcesses(SimpleHdd hdd, long deltaTime) {
         mappings.stream()
                 .filter(mapping -> hdd.equals(mapping.getHdd()))
+                .filter(UnlimitedProcessMapping::isCanExecute)
                 .findFirst()
                 .ifPresent(matchingMapping -> matchingMapping.execute(deltaTime));
     }
